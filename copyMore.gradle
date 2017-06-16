@@ -1,0 +1,9 @@
+task copy(type: Copy) {
+  from file('.') 
+
+  include '.gitignore'
+  include '.travis.yml'
+  include 'gradle.properties'
+
+  into file("${projectDir}/..")
+}

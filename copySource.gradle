@@ -1,0 +1,32 @@
+// http://mrhaki.blogspot.com/2010/10/gradle-goodness-copy-files-with.html
+import org.apache.tools.ant.filters.*
+
+defaultTasks 'filter1', 'filter2'
+
+project.ext {
+	cn = "Tool"
+	alias = "jnorthr"
+	author = "Jim Northrop"
+	year = '2017'
+	packagename = 'package com.jim.tools;'
+	packagefolder = '/com/jim/tools'
+} 
+
+//defaultTasks 'filter5','filter6'
+
+// uses imported ant filter classes 
+task filter1(type: Copy) {
+    from 'groovymain'
+    into  file("../src/main/groovy${packagefolder}")
+    // Substitute property tokens in files
+    filter(ReplaceTokens, tokens: [year: year, classname: cn, package:packagename])
+    rename { it = cn + '.groovy' }
+} // end of task
+
+task filter2(type: Copy) {
+    from 'groovytest'
+    into  file("../src/test/groovy${packagefolder}")
+    // Substitute property tokens in files
+    filter(ReplaceTokens, tokens: [year: year, classname: cn, package:packagename])
+    rename { it = cn + 'Test.groovy' }
+} // end of task

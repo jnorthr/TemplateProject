@@ -1,0 +1,30 @@
+= http://mrhaki.blogspot.com/2010/10/gradle-goodness-copy-files-with.html[Ant Filters in Gradle]
+jimbo <jnorthr@orange.fr>
+:toc: right
+:icons: font
+:description: Sample document using ant replacement filters.
+:keywords: Asciidoctor, header, footer, docinfo
+:numbered:
+:github_url: https://github.com/jnorthr/asciidoctor-gradle-examples
+:github_project_path: {github_url}/tree/master
+:github_fork_badge: https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png
+
+[.badge]
+image::{github_fork_badge}[link="{github_url}"]
+
+[discrete]
+== About
+
+This repository contains examples on how to use Gradle and Asciidoctor to create html5, pdf, epub, deck.js, and reveal.js outputs.
+
+''''
+
+IMPORTANT: Asciidoctor is awesome, don't forget!
+
+''''
+
+== Header One
+
+This is just a simple text file. This line will not make it.
+We show filtering capabilities of Gradle copy.
+This file is written by {author} with Gradle version ${gradleVersion}.

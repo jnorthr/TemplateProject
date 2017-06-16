@@ -1,0 +1,11 @@
+task copy(type: Copy) {
+  from file('.') 
+
+  include 'LICENSE'
+  into file("${projectDir}/..")
+  
+  expand([
+    owner: 'jim northrop',  // copyright owner
+    year: '2017'	// copyright year
+  ])
+}
