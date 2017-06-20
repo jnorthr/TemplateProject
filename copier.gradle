@@ -18,5 +18,5 @@ task copy(type: Copy) {
   org.apache.tools.ant.DirectoryScanner.removeDefaultExclude("**/.gitignore")
   org.apache.tools.ant.DirectoryScanner.removeDefaultExclude("**/.travis.yml")
 
-  expand([date: new Date(),year:year,author:author,project:project,classname:classname,projectname:projectname])
+  expand([date: new Date(), year:year, author:author, project:project, classname:classname, projectname:projectname, packageid:packageid ])
 }

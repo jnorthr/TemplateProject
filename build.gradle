@@ -11,7 +11,7 @@ apply plugin: 'groovy'
 apply plugin: 'application'
 
 defaultTasks 'clean','build','groovydoc','javadoc','run'
-mainClassName = "com.jim.tools.Tool"
+mainClassName = "${packageid}${classname}"
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -30,4 +30,11 @@ dependencies {
     testCompile 'org.springframework.boot:spring-boot:1.2.1.RELEASE'
 }
 
+// runs the class main() method; args are ignored but maybe later ?
+task(run${classname}, dependsOn: 'classes', type: JavaExec) {
+		main = "${packageid}${classname}"
+		classpath = sourceSets.main.runtimeClasspath
+		args 'jimbo', 'hi kids'
+		systemProperty 'simple.message', 'Hi kids '
+}
 
