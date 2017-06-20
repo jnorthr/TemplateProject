@@ -19,21 +19,29 @@ project.ext {
 // Plugin so we can render AsciiDoc documents.
 apply plugin: 'org.asciidoctor.gradle.asciidoctor'
 
-defaultTasks 'filterCopy','asciidoctor'
+defaultTasks 'filterCopy','asciidoctor', 'resources'
 
 asciidoctor {
-    // We can change the AsciidoctorJ
-    // dependency version.
+    // We can change the AsciidoctorJ dependency version.
     version = '1.5.3'
     separateOutputDirs=false
-    //sourceDir=file(new File('../src/docs/asciidoc'))
+    outputDir = new File('../src/docs/asciidoc')
+    sourceDir=file('../src/docs/asciidoc')
+    backends('html5')
 }
  
 
 task('filterCopy', type: Copy) {
     from 'templates'
-    into 'src/docs/asciidoc'
+    into file('../src/docs/asciidoc')
     include '**/*.txt'
     expand ([gradleVersion:gradleVersion])
     rename { it - '.txt' + '.adoc'}
+}
+
+task ('resources', type: Copy) {
+  // now take properties from folders
+  from 'resources'
+  include '*.properties'
+  into file('../src/main/resources')
 }

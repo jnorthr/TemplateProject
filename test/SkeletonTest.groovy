@@ -104,12 +104,12 @@ class @classname@Test extends spock.lang.Specification {
     	setup: 
   			@classname@ ch= new @classname@();
     	when:
-			ch.setOpenOrSave(false);
- 
+			def txt = ch.toString();
+ 			println txt;
 	    then:
 		    // Asserts are implicit and not need to be stated.
     		// Change "==" to "!=" and see what's happening!
-	    	ch.fc != null;
+	    	ch.toString() != null; 
   } // end of spec
 
  

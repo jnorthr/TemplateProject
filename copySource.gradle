@@ -1,32 +1,76 @@
 // http://mrhaki.blogspot.com/2010/10/gradle-goodness-copy-files-with.html
-import org.apache.tools.ant.filters.*
-
-defaultTasks 'filter1', 'filter2'
-
-project.ext {
-	cn = "Tool"
-	alias = "jnorthr"
-	author = "Jim Northrop"
-	year = '2017'
-	packagename = 'package com.jim.tools;'
-	packagefolder = '/com/jim/tools'
-} 
-
-//defaultTasks 'filter5','filter6'
 
 // uses imported ant filter classes 
-task filter1(type: Copy) {
-    from 'groovymain'
+import org.apache.tools.ant.filters.*
+
+defaultTasks 'groovy', 'test'
+
+task groovy(type: Copy) {
+    from 'main'
     into  file("../src/main/groovy${packagefolder}")
+    include '*.groovy'
     // Substitute property tokens in files
-    filter(ReplaceTokens, tokens: [year: year, classname: cn, package:packagename])
-    rename { it = cn + '.groovy' }
+    filter(ReplaceTokens, tokens: [year: year, classname: classname, package:packagename])
+    rename { it = classname + '.groovy' }
+    outputs.upToDateWhen { false }
 } // end of task
 
-task filter2(type: Copy) {
-    from 'groovytest'
+task test(type: Copy,dependsOn: groovy) {
+    from 'test'
     into  file("../src/test/groovy${packagefolder}")
+    include '*.groovy'
     // Substitute property tokens in files
-    filter(ReplaceTokens, tokens: [year: year, classname: cn, package:packagename])
-    rename { it = cn + 'Test.groovy' }
+    filter(ReplaceTokens, tokens: [year: year, classname: classname, package:packagename])
+    rename { it = classname + 'Test.groovy' }
+    outputs.upToDateWhen { false }
 } // end of task
+
+
+// ==============================================
+// Java anyone ?
+task javacopy(type: Copy) {
+    from 'main'
+    into  file("../src/main/java${packagefolder}")
+    include '*.java'
+    // Substitute property tokens in files
+    filter(ReplaceTokens, tokens: [year: year, classname: classname, package:packagename])
+    rename { it = classname + '.java' }
+    outputs.upToDateWhen { false }
+} // end of task
+
+
+// funny tasks name but looks nice for command line user b/c it calls javacopy task to make java source & dirs
+task java(type: Copy,dependsOn: javacopy) {
+    from 'test'
+    into  file("../src/test/java${packagefolder}")
+    include '*.java'
+    // Substitute property tokens in files
+    filter(ReplaceTokens, tokens: [year: year, classname: classname, package:packagename])
+    rename { it = classname + 'Test.java' }
+    outputs.upToDateWhen { false }
+} // end of task
+
+
+// ==============================================
+// Scala anyone ?
+task scalacopy(type: Copy) {
+    from 'main'
+    into  file("../src/main/scala${packagefolder}")
+    include '*.scala'
+    // Substitute property tokens in files
+    filter(ReplaceTokens, tokens: [year: year, classname: classname, package:packagename])
+    rename { it = classname + '.scala' }
+    outputs.upToDateWhen { false }
+} // end of task
+
+// funny tasks name but looks nice for command line user b/c it calls scalacopy task to make scala source & dirs
+task scala(type: Copy,dependsOn: scalacopy) {
+    from 'test'
+    into  file("../src/test/scala${packagefolder}")
+    include '*.scala'
+    // Substitute property tokens in files
+    filter(ReplaceTokens, tokens: [year: year, classname: classname, package:packagename])
+    rename { it = classname + 'Test.scala' }
+    outputs.upToDateWhen { false }
+} // end of task
+
