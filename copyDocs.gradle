@@ -64,8 +64,9 @@ task copydocs(type: Copy) {
 
 task copyreadme(type: Copy) {
 	from file('.') 
-	include 'README.adoc'
+	include 'README.adoc.txt'
 	into file("../src/docs/asciidoc")
+    rename { it - '.txt' }
 
     // Substitute property tokens in files
     expand([date: new Date(), year: year, alias:alias, classname: classname, packagename:packagename, 
