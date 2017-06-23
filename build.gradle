@@ -22,4 +22,3 @@ dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.4.11'
 }
 
-hi kids
