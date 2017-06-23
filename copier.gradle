@@ -7,7 +7,7 @@ task copy(type: Copy) {
 
   include 'LICENSE'
   include 'README.adoc'
-  include 'settings.gradle'
+  include 'settings.gradle.txt'
   include 'gradle.properties'
   include 'build.gradle.txt'
   include '.gitignore'
@@ -23,10 +23,21 @@ task copy(type: Copy) {
     projectname:projectname, packagefolder:packagefolder, packageid:packageid, author:author])
 
   rename { file ->
-    if (file == 'build.gradle.txt') {
+    if (file == 'build.gradle.txt') 
+    {
         'build.gradle'
-    } else {
-        file
-    }
-}
-}
+    } 
+    else 
+    {
+    	if (file == 'settings.gradle.txt')
+    	{
+    		'settings.gradle'
+    	}
+    	else
+    	{
+        	file
+        } // end of else
+    } // end of else
+  } // end rename
+  
+} // end task
