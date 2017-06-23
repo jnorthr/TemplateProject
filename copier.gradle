@@ -1,24 +1,26 @@
-// expand() uses groovy GString declarations for replacements within included files
+// expand() uses groovy GString ${} template placeholders declarations for replacements within included files
 
 defaultTasks 'copy'
 
 task copy(type: Copy) {
   from file('.') 
-
-  include 'LICENSE'
-  include 'README.adoc'
   include 'settings.gradle.txt'
   include 'gradle.properties'
   include 'build.gradle.txt'
+  
+  // for Git users
   include '.gitignore'
+
+  // for Travis users on GitHub
   include '.travis.yml'
 
   into file("${projectDir}/..")
 
+  // turn off Ant suppression of files to copy
   org.apache.tools.ant.DirectoryScanner.removeDefaultExclude("**/.gitignore")
   org.apache.tools.ant.DirectoryScanner.removeDefaultExclude("**/.travis.yml")
 
-    // Substitute property tokens in files
+	// Substitute property tokens in files
     expand([date: new Date(), year: year, alias:alias, classname: classname, packagename:packagename, 
     projectname:projectname, packagefolder:packagefolder, packageid:packageid, author:author])
 

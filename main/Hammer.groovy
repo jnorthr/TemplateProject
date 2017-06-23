@@ -26,7 +26,7 @@ import groovy.transform.*;
  *
  */ 
  @Canonical 
- public class ${classname}
+ public class Hammer
  {
     /** an O/S specific char. as a file path divider */
     String fs = java.io.File.separator;
@@ -38,17 +38,17 @@ import groovy.transform.*;
    /** 
     * Variable name of current class.
     */  
-    String classname = "${classname}";
+    String classname = "Hammer";
 
 
    /** 
     * Default Constructor 
     * 
-    * @return ${classname} object
+    * @return Hammer object
     */     
-    public ${classname}()
+    public Hammer()
     {
-        classname = "running \${classname} constructor written by \${author}"
+        classname = "running Hammer constructor written by \${author}"
     } // end of constructor
 
 
@@ -59,7 +59,7 @@ import groovy.transform.*;
     */     
     public String toString()
     {
-        return """classname=\${classname}
+        return """classname=Hammer
 user.home=\${home}
 java.io.File.separator=\${java.io.File.separator}
 """
@@ -88,10 +88,10 @@ java.io.File.separator=\${java.io.File.separator}
     {
         println "--- starting ${classname} ---"
 
-        ${classname} obj = new ${classname}();
+        Hammer obj = new Hammer();
         
-        println "${classname} = [\${obj.toString()}]"
-        println "--- the end of ${classname} ---"
+        println "Hammer = [\${obj.toString()}]"
+        println "--- the end of Hammer ---"
     } // end of main
 
 } // end of class

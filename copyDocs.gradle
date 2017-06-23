@@ -19,7 +19,7 @@ project.ext {
 // Plugin so we can render AsciiDoc documents.
 apply plugin: 'org.asciidoctor.gradle.asciidoctor'
 
-defaultTasks 'filterCopy','asciidoctor', 'resources'
+defaultTasks 'filterCopy', 'copydocs', 'asciidoctor', 'resources'
 
 asciidoctor {
     // We can change the AsciidoctorJ dependency version.
@@ -35,7 +35,11 @@ task('filterCopy', type: Copy) {
     from 'templates'
     into file('../src/docs/asciidoc')
     include '**/*.txt'
-    expand ([gradleVersion:gradleVersion])
+
+    // Substitute property tokens in files
+    expand([date: new Date(), gradleVersion:gradleVersion, year: year, alias:alias, classname: classname, packagename:packagename, 
+    projectname:projectname, packagefolder:packagefolder, packageid:packageid, author:author])
+    
     rename { it - '.txt' + '.adoc'}
 }
 
@@ -44,4 +48,17 @@ task ('resources', type: Copy) {
   from 'resources'
   include '*.properties'
   into file('../src/main/resources')
+}
+
+
+task copydocs(type: Copy) {
+	from file('.') 
+	include 'LICENSE'
+	include 'README.adoc'
+	into file("${projectDir}/..")
+
+    // Substitute property tokens in files
+    expand([date: new Date(), year: year, alias:alias, classname: classname, packagename:packagename, 
+    projectname:projectname, packagefolder:packagefolder, packageid:packageid, author:author])
+  
 }
