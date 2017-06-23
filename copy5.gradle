@@ -11,7 +11,8 @@ task groovy5(type: Copy) {
     outputs.upToDateWhen { false }
 } // end of task
 
-/*
+
+/* from gradle.properties
 alias =jnorthr
 author =Jim Northrop
 year =2017

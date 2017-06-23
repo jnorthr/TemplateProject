@@ -9,7 +9,7 @@ task copy(type: Copy) {
   include 'README.adoc'
   include 'settings.gradle'
   include 'gradle.properties'
-  include 'build.gradle'
+  include 'build.gradle.txt'
   include '.gitignore'
   include '.travis.yml'
 
@@ -18,5 +18,15 @@ task copy(type: Copy) {
   org.apache.tools.ant.DirectoryScanner.removeDefaultExclude("**/.gitignore")
   org.apache.tools.ant.DirectoryScanner.removeDefaultExclude("**/.travis.yml")
 
-  expand([date: new Date(), year:year, author:author, project:project, classname:classname, projectname:projectname, packageid:packageid ])
+    // Substitute property tokens in files
+    expand([date: new Date(), year: year, alias:alias, classname: classname, packagename:packagename, 
+    projectname:projectname, packagefolder:packagefolder, packageid:packageid, author:author])
+
+  rename { file ->
+    if (file == 'build.gradle.txt') {
+        'build.gradle'
+    } else {
+        file
+    }
+}
 }
