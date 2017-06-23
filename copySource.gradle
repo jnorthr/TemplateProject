@@ -3,7 +3,7 @@
 // uses imported ant filter classes in each task to replace placeholders in source documents
 //import org.apache.tools.ant.filters.*
 
-defaultTasks 'groovyall', 'groovy'
+defaultTasks 'groovyall', 'groovy', 'updateGradle'
 
 task groovycopy(type: Copy) {
     from 'main'
@@ -49,6 +49,17 @@ task groovyall(type: Copy) {
     //filter(ReplaceTokens, tokens: [year: year, classname: classname, package:packagename])
     
     outputs.upToDateWhen { false }
+} // end of task
+
+
+task testGradleProperties (type: Copy,dependsOn: groovyall) {
+    from 'test'
+    into  file("../src/test/groovy${packagefolder}")
+    include 'PropertiesTest.groovy'
+    
+    // Substitute property tokens in files
+    expand([year: year, alias:alias, classname: classname, packagename:packagename, 
+    projectname:projectname, packagefolder:packagefolder, packageid:packageid, author:author])
 } // end of task
 
 
@@ -114,5 +125,29 @@ task scala(type: Copy,dependsOn: scalacopy) {
     
     rename { it = classname + 'Test.scala' }
     outputs.upToDateWhen { false }
+} // end of task
+
+
+/*
+	A Task to update the build.gradle file of the root project with a run task for a newly created class
+*/
+task updateGradle{
+    // initialization stuff 
+    doLast {
+		   println "doing a lot of stuff" 
+		   def fi = file("${projectDir}/../build.gradle")
+		   fi.append("""
+
+// runs the class main() method; args are ignored but maybe later ?
+task(run${classname}, dependsOn: 'classes', type: JavaExec) {
+		main = "${packageid}${classname}"
+		classpath = sourceSets.main.runtimeClasspath
+		args 'jimbo', 'hi kids'
+		systemProperty 'simple.message', 'Hi kids '
+}
+
+""");
+		   println "end of myTask" 
+    }
 } // end of task
 

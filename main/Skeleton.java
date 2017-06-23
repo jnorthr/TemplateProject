@@ -44,7 +44,6 @@ import groovy.transform.*;
    /** 
     * Default Constructor 
     * 
-    * #return ${classname} object
     */     
     public ${classname}()
     {
@@ -55,7 +54,7 @@ import groovy.transform.*;
    /** 
     * Method to display internal variables.
     * 
-    * return formatted content of internal variables
+    * @return formatted content of internal variables
     */     
     public String toString()
     {
@@ -66,7 +65,7 @@ import groovy.transform.*;
    /** 
     * Method to print audit log.
     * 
-    * param the text to be said
+    * @param msg the text to be said
     */     
     public void say(String msg)
     {
@@ -78,7 +77,7 @@ import groovy.transform.*;
    /** 
     * Method to run class tests.
     * 
-    * param args Value is string array - possibly empty - of command-line values. 
+    * @param args Value is string array - possibly empty - of command-line values. 
     */     
     public static void main(String[] args)
     {

@@ -1,29 +1,30 @@
-= http://mrhaki.blogspot.com/2010/10/gradle-goodness-copy-files-with.html[Ant Filters in Gradle]
-jim <jnorthr@orange.fr>
+= https://github.com/jnorthr/TemplateProject/blob/master/README.md[Template Project README.md]
+${author} <${alias}@gmail.com>
 :toc: right
 :icons: font
 :description: ${projectname} Project Builder Templates.
-:keywords: Asciidoctor, gradle, groovy, project, builder, templates
+:keywords: git, github, gradle, groovy, project, builder, templates
 :numbered:
-:github_url: https://github.com/jnorthr/asciidoctor-gradle-examples
+:github_url: https://github.com/jnorthr/${projectname}
 :github_project_path: {github_url}/tree/master
-:github_fork_badge: https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png
+:github_fork_badge: https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png
 
 [.badge]
-image::{github_fork_badge}[link="{github_url}"]
+image:{github_fork_badge}[link="{github_url}"] Travis Build Status for [red]*${projectname}* Master Branch: image:https://travis-ci.org/jnorthr/${projectname}.svg?branch=master[Build Status,link=https://travis-ci.org/jnorthr/${projectname}]
+
 
 ''''
 
-TIP: ${projectname} README
+TIP: [red]*${projectname}* *README*
 
 ''''
 
 == Home Page of ${projectname} Project
 
-=== Class ${classname} Documentation
+=== ${classname} Class Documentation
 
 ''''
 
-TIP: This file is written by ${author} with Gradle version 4.0
+IMPORTANT: This Project is written by _${author}_ with *Gradle version 4.0*
 
 ''''

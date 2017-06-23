@@ -1,5 +1,4 @@
 // http://mrhaki.blogspot.com/2010/10/gradle-goodness-copy-files-with.html
-//import org.apache.tools.ant.filters.*
 
 buildscript {
     repositories {
@@ -16,11 +15,13 @@ project.ext {
 } 
 
  
-// Plugin so we can render AsciiDoc documents.
+// Plugin so we can render AsciiDoctor documents.
 apply plugin: 'org.asciidoctor.gradle.asciidoctor'
 
+// do thee tasks if no command line choices are given
 defaultTasks 'filterCopy', 'copydocs', 'copyreadme', 'asciidoctor', 'resources'
 
+// closure to influence asciidoctor behaviour
 asciidoctor {
     // We can change the AsciidoctorJ dependency version.
     version = '1.5.3'
@@ -29,47 +30,50 @@ asciidoctor {
     sourceDir=file('../src/docs/asciidoc')
     backends('html5')
 }
- 
 
+ 
+// copy all asciidoctor-styled text files from 'templates' & rename as asciidoctor .adoc text files
 task('filterCopy', type: Copy) {
     from 'templates'
     into file('../src/docs/asciidoc')
     include '**/*.txt'
 
-    // Substitute property tokens in files
+    // Substitute ${xxx} placeholder tokens in files
     expand([date: new Date(), gradleVersion:gradleVersion, year: year, alias:alias, classname: classname, packagename:packagename, 
     projectname:projectname, packagefolder:packagefolder, packageid:packageid, author:author])
     
     rename { it - '.txt' + '.adoc'}
 }
 
+
+// now take properties from folders
 task ('resources', type: Copy) {
-  // now take properties from folders
   from 'resources'
   include '*.properties'
   into file('../src/main/resources')
 }
 
 
+// now copy our license terms
 task copydocs(type: Copy) {
 	from file('.') 
 	include 'LICENSE'
 	into file("${projectDir}/..")
 
-    // Substitute property tokens in files
+    // Substitute ${xxx} placeholder tokens in files
     expand([date: new Date(), year: year, alias:alias, classname: classname, packagename:packagename, 
     projectname:projectname, packagefolder:packagefolder, packageid:packageid, author:author])
-  
 }
 
+
+// now copy our README text template & drop .txt
 task copyreadme(type: Copy) {
 	from file('.') 
 	include 'README.adoc.txt'
 	into file("../src/docs/asciidoc")
     rename { it - '.txt' }
 
-    // Substitute property tokens in files
+    // Substitute ${xxx} placeholder tokens in files
     expand([date: new Date(), year: year, alias:alias, classname: classname, packagename:packagename, 
-    projectname:projectname, packagefolder:packagefolder, packageid:packageid, author:author])
-  
+    projectname:projectname, packagefolder:packagefolder, packageid:packageid, author:author])  
 }
