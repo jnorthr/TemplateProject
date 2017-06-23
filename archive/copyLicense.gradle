@@ -1,0 +1,12 @@
+// uses imported ant filter classes 
+import org.apache.tools.ant.filters.*
+
+defaultTasks 'copy'
+
+task copy(type: Copy) {
+  from file('.') 
+  //include 'LICENSE'
+  include 'README.md'
+  into file("${projectDir}/..")
+  filter(ReplaceTokens, tokens: [year: year, classname: classname, package:packagename,project:project, author:author])
+}

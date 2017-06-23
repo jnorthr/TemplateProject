@@ -1,0 +1,62 @@
+// http://mrhaki.blogspot.com/2010/10/gradle-goodness-copy-files-with.html
+import org.apache.tools.ant.filters.*
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+ 
+    dependencies {
+        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
+    }
+}
+
+project.ext {
+	cn = "Tool"
+	alias = "jnorthr"
+	author = "Jim Northrop"
+	year = '2017'
+	packagename = 'package com.jim.tools;'
+} 
+
+ 
+// Plugin so we can render AsciiDoc documents.
+apply plugin: 'org.asciidoctor.gradle.asciidoctor'
+
+defaultTasks 'filterCopy','asciidoctor','filter5','filter6'
+
+asciidoctor {
+    // We can change the AsciidoctorJ
+    // dependency version.
+    version = '1.5.3'
+    separateOutputDirs=false
+}
+ 
+
+// uses imported ant filter classes 
+task('filterCopy', type: Copy) {
+    from 'src/templates'
+    into 'src/docs/asciidoc'
+    include '**/*.txt'
+    filter { line -> line }  //.contains('Gradle') ? line : '' }
+    filter(ReplaceTokens, tokens: [author: author, gradleVersion: gradle.gradleVersion])
+    filter(ConcatFilter, prepend: file('src/include/header.txt'))
+    rename { it - '.txt' + '.adoc'}
+}
+
+
+task filter5(type: Copy) {
+    from 'src/main/groovy'
+    into  'task/src/main/groovy/com/jim/tools'
+    // Substitute property tokens in files
+    filter(ReplaceTokens, tokens: [year: year, classname: cn, package:packagename])
+    rename { it = cn + '.groovy' }
+} // end of task
+
+task filter6(type: Copy) {
+    from 'src/test/groovy'
+    into  'task/src/test/groovy/com/jim/tools'
+    // Substitute property tokens in files
+    filter(ReplaceTokens, tokens: [year: year, classname: cn, package:packagename])
+    rename { it = cn + 'Test.groovy' }
+} // end of task
