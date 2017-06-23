@@ -1,7 +1,7 @@
-@package@
+${packagename}
 
 /*
- * Copyright @year@ the original author @author@ or authors.
+ * Copyright ${year} the original author ${author} or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
 import collection.mutable.Stack
 import org.scalatest._
 
-class @classname@Spec extends FlatSpec with Matchers {
+class ${classname}Spec extends FlatSpec with Matchers {
 
   "A Stack" should "pop values in last-in-first-out order" in {
     val stack = new Stack[Int]

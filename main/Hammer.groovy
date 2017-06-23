@@ -44,33 +44,36 @@ import groovy.transform.*;
    /** 
     * Default Constructor 
     * 
-    * #return ${classname} object
+    * @return ${classname} object
     */     
     public ${classname}()
     {
-        classname = "running ${classname} constructor";
+        classname = "running \${classname} constructor written by \${author}"
     } // end of constructor
 
 
    /** 
     * Method to display internal variables.
     * 
-    * return formatted content of internal variables
+    * @return formatted content of internal variables
     */     
     public String toString()
     {
-        String tx = "classname=\${classname} user.home="+home+" java.io.File.separator="+java.io.File.separator;
-		return tx;
+        return """classname=\${classname}
+user.home=\${home}
+java.io.File.separator=\${java.io.File.separator}
+"""
     }  // end of string
 
    /** 
     * Method to print audit log.
     * 
-    * param the text to be said
+    * @param the text to be said
+    * @return void
     */     
-    public void say(String msg)
+    public void say(txt)
     {
-        System.out.println(msg);
+        println txt;
     }  // end of method
 
 
@@ -78,16 +81,17 @@ import groovy.transform.*;
    /** 
     * Method to run class tests.
     * 
-    * param args Value is string array - possibly empty - of command-line values. 
+    * @param args Value is string array - possibly empty - of command-line values. 
+    * @return void
     */     
     public static void main(String[] args)
     {
-        System.out.println("--- starting ${classname} ---");
+        println "--- starting ${classname} ---"
 
         ${classname} obj = new ${classname}();
         
-        System.out.println("${classname} = [\${obj.toString()}]");
-        System.out.println("--- the end of ${classname} ---");
+        println "${classname} = [\${obj.toString()}]"
+        println "--- the end of ${classname} ---"
     } // end of main
 
 } // end of class

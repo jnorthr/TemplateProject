@@ -1,9 +1,9 @@
-@package@
+${packagename}
 
 import groovy.transform.*;
 
 /*
- * Copyright @year@ the original author or authors.
+ * Copyright ${year} the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,14 +19,14 @@ import groovy.transform.*;
  */
 
 /** 
- * @classname@ class description
+ * ${classname} class description
  *
  * This is code with all bits needed to do a project
 
  *
  */ 
  @Canonical 
- public class @classname@
+ public class ${classname}
  {
     /** an O/S specific char. as a file path divider */
     String fs = java.io.File.separator;
@@ -38,17 +38,17 @@ import groovy.transform.*;
    /** 
     * Variable name of current class.
     */  
-    String classname = "@classname@";
+    String classname = "${classname}";
 
 
    /** 
     * Default Constructor 
     * 
-    * @return @classname@ object
+    * @return ${classname} object
     */     
-    public @classname@()
+    public ${classname}()
     {
-        classname = "running @classname@ constructor"
+        classname = "running ${classname} constructor"
     } // end of constructor
 
 
@@ -59,9 +59,9 @@ import groovy.transform.*;
     */     
     public String toString()
     {
-        return """classname=@classname@
-user.home=${home}
-java.io.File.separator=${java.io.File.separator}
+        return """classname=\${classname}
+user.home=\${home}
+java.io.File.separator=\${java.io.File.separator}
 """
     }  // end of string
 
@@ -77,6 +77,11 @@ java.io.File.separator=${java.io.File.separator}
     }  // end of method
 
 
+
+
+
+
+
    // ======================================
    /** 
     * Method to run class tests.
@@ -86,12 +91,12 @@ java.io.File.separator=${java.io.File.separator}
     */     
     public static void main(String[] args)
     {
-        println "--- starting @classname@ ---"
+        println "--- starting ${classname} ---"
 
-        @classname@ obj = new @classname@();
+        ${classname} obj = new ${classname}();
         
-        println "@classname@ = [${obj.toString()}]"
-        println "--- the end of @classname@ ---"
+        println "${classname} = [\${obj.toString()}]"
+        println "--- the end of ${classname} ---"
     } // end of main
 
 } // end of class

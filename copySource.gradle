@@ -1,27 +1,53 @@
 // http://mrhaki.blogspot.com/2010/10/gradle-goodness-copy-files-with.html
 
-// uses imported ant filter classes 
-import org.apache.tools.ant.filters.*
+// uses imported ant filter classes in each task to replace placeholders in source documents
+//import org.apache.tools.ant.filters.*
 
-defaultTasks 'groovy', 'test'
+defaultTasks 'groovyall', 'groovy'
 
-task groovy(type: Copy) {
+task groovycopy(type: Copy) {
     from 'main'
     into  file("../src/main/groovy${packagefolder}")
-    include '*.groovy'
+    include 'Skeleton.groovy'
+
     // Substitute property tokens in files
-    filter(ReplaceTokens, tokens: [year: year, classname: classname, package:packagename])
+    expand([year: year, alias:alias, classname: classname, packagename:packagename, 
+    projectname:projectname, packagefolder:packagefolder, packageid:packageid, author:author])
+    //filter(ReplaceTokens, tokens: [year: year, classname: classname, package:packagename])
+
     rename { it = classname + '.groovy' }
     outputs.upToDateWhen { false }
 } // end of task
 
-task test(type: Copy,dependsOn: groovy) {
+// this just creates the 'Test' versions while the groovycopy task above actually copies the *.groovy from the 'main' folder
+task groovy(type: Copy,dependsOn: groovycopy) {
     from 'test'
     into  file("../src/test/groovy${packagefolder}")
     include '*.groovy'
+
     // Substitute property tokens in files
-    filter(ReplaceTokens, tokens: [year: year, classname: classname, package:packagename])
+    expand([year: year, alias:alias, classname: classname, packagename:packagename, 
+    projectname:projectname, packagefolder:packagefolder, packageid:packageid, author:author])
+    //filter(ReplaceTokens, tokens: [year: year, classname: classname, package:packagename])
+
     rename { it = classname + 'Test.groovy' }
+    outputs.upToDateWhen { false }
+} // end of task
+
+
+// here we copy all groovy source except our own Skeleton.groovy we use internally
+// so just name your class like Hammer.groovy then, if needed, use groovy GString template placeholders like ${date} within your source
+task groovyall(type: Copy) {
+    from 'main'
+    into  file("../src/main/groovy${packagefolder}")
+    include '*.groovy'
+    exclude 'Skeleton.groovy'
+    
+    // Substitute property tokens in files
+    expand([year: year, alias:alias, classname: classname, packagename:packagename, 
+    projectname:projectname, packagefolder:packagefolder, packageid:packageid, author:author])
+    //filter(ReplaceTokens, tokens: [year: year, classname: classname, package:packagename])
+    
     outputs.upToDateWhen { false }
 } // end of task
 
@@ -32,8 +58,12 @@ task javacopy(type: Copy) {
     from 'main'
     into  file("../src/main/java${packagefolder}")
     include '*.java'
+    
     // Substitute property tokens in files
-    filter(ReplaceTokens, tokens: [year: year, classname: classname, package:packagename])
+    expand([year: year, alias:alias, classname: classname, packagename:packagename, 
+    projectname:projectname, packagefolder:packagefolder, packageid:packageid, author:author])
+    //filter(ReplaceTokens, tokens: [year: year, classname: classname, package:packagename ])
+    
     rename { it = classname + '.java' }
     outputs.upToDateWhen { false }
 } // end of task
@@ -44,8 +74,12 @@ task java(type: Copy,dependsOn: javacopy) {
     from 'test'
     into  file("../src/test/java${packagefolder}")
     include '*.java'
+
     // Substitute property tokens in files
-    filter(ReplaceTokens, tokens: [year: year, classname: classname, package:packagename])
+    expand([year: year, alias:alias, classname: classname, packagename:packagename, 
+    projectname:projectname, packagefolder:packagefolder, packageid:packageid, author:author])
+    //filter(ReplaceTokens, tokens: [year: year, classname: classname, package:packagename])
+    
     rename { it = classname + 'Test.java' }
     outputs.upToDateWhen { false }
 } // end of task
@@ -57,8 +91,12 @@ task scalacopy(type: Copy) {
     from 'main'
     into  file("../src/main/scala${packagefolder}")
     include '*.scala'
+    
     // Substitute property tokens in files
-    filter(ReplaceTokens, tokens: [year: year, classname: classname, package:packagename])
+    expand([year: year, alias:alias, classname: classname, packagename:packagename, 
+    projectname:projectname, packagefolder:packagefolder, packageid:packageid, author:author])
+    //filter(ReplaceTokens, tokens: [year: year, classname: classname, package:packagename])
+
     rename { it = classname + '.scala' }
     outputs.upToDateWhen { false }
 } // end of task
@@ -68,8 +106,12 @@ task scala(type: Copy,dependsOn: scalacopy) {
     from 'test'
     into  file("../src/test/scala${packagefolder}")
     include '*.scala'
+
     // Substitute property tokens in files
-    filter(ReplaceTokens, tokens: [year: year, classname: classname, package:packagename])
+    expand([year: year, alias:alias, classname: classname, packagename:packagename, 
+    projectname:projectname, packagefolder:packagefolder, packageid:packageid, author:author])
+    //filter(ReplaceTokens, tokens: [year: year, classname: classname, package:packagename])
+    
     rename { it = classname + 'Test.scala' }
     outputs.upToDateWhen { false }
 } // end of task
