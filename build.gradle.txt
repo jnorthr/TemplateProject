@@ -34,12 +34,9 @@ dependencies {
     testCompile group: 'org.scalatest', name: 'scalatest_2.12', version: '3.0.3'    
 }
 
-/*
-// runs the class main() method; args are ignored but maybe later ?
-task(run${classname}, dependsOn: 'classes', type: JavaExec) {
-		main = "${packageid}${classname}"
-		classpath = sourceSets.main.runtimeClasspath
-		args 'jimbo', 'hi kids'
-		systemProperty 'simple.message', 'Hi kids '
+jar {
+    manifest {
+        attributes 'Main-Class': "${packageid}${classname}",
+                   'Class-Path': configurations.runtime.files.collect { "lib/\$it.name" }.join(' ')
+    }
 }
-*/
