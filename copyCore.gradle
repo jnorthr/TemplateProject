@@ -1,45 +1,34 @@
 // expand() uses groovy GString ${} template placeholders declarations for replacements within included files
 
-defaultTasks 'copy'
+defaultTasks 'copy', 'resources'
+
+// placeholder replacement Map
+Map m = [year: year, classname: classname, packagename:packagename, githubuser:githubuser, projectname:projectname, 
+packagefolder:packagefolder, packageid:packageid, author:author]
+
 
 task copy(type: Copy) {
-  from file('.') 
-  include 'settings.gradle.txt'
-  include 'gradle.properties'
-  include 'build.gradle.txt'
+  from file('./templates/docs') 
   
-  // for Git users
-  include '.gitignore'
-
-  // for Travis users on GitHub
-  include '.travis.yml'
-
+  include '**/*.txt'
   into file("${projectDir}/..")
 
   // turn off Ant suppression of files to copy
   org.apache.tools.ant.DirectoryScanner.removeDefaultExclude("**/.gitignore")
   org.apache.tools.ant.DirectoryScanner.removeDefaultExclude("**/.travis.yml")
 
-	// Substitute property tokens in files
-    expand([date: new Date(), year: year, alias:alias, classname: classname, packagename:packagename, 
-    projectname:projectname, packagefolder:packagefolder, packageid:packageid, author:author])
+  // Substitute property tokens in files
+  expand(m)
+  rename { it - '.txt' }
 
-  rename { file ->
-    if (file == 'build.gradle.txt') 
-    {
-        'build.gradle'
-    } 
-    else 
-    {
-    	if (file == 'settings.gradle.txt')
-    	{
-    		'settings.gradle'
-    	}
-    	else
-    	{
-        	file
-        } // end of else
-    } // end of else
-  } // end rename
-  
 } // end task
+
+
+// now take properties from folders
+task ('resources', type: Copy) {
+  from file('./templates/resources') 
+  include '*.properties'
+  into file('../src/main/resources')
+}
+
+

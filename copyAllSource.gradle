@@ -1,0 +1,181 @@
+// http://mrhaki.blogspot.com/2010/10/gradle-goodness-copy-files-with.html
+defaultTasks 'groovy', 'java', 'scala'
+
+// placeholder replacement Map
+Map m = [year: year, classname: classname, packagename:packagename, githubuser:githubuser, projectname:projectname, 
+packagefolder:packagefolder, packageid:packageid, author:author]
+
+
+/*
+	A Method to update the build.gradle file of the root project with a run task for a newly created class
+    Define methods b4 use; use 'ext' project scope so method seen everywhere;
+*/
+ext.say = { fn ->
+ 	 String xx = "run${fn}"
+	 def fi = file("${projectDir}/../build.gradle")
+	 int j = fi.text.indexOf(xx);
+	 
+	 if (j < 1)
+	 {
+	 	println "... updating build.gradle to include run"+fn;
+	    fi.append("""
+
+// runs the class main() method; args are ignored but maybe later ?
+task(run${fn}, dependsOn: 'classes', type: JavaExec) {
+		main = "${packageid}${fn}"
+		classpath = sourceSets.main.runtimeClasspath
+		args 'jimbo', 'hi kids'
+		systemProperty 'simple.message', 'Hi kids '
+}
+
+""");
+	  } // end of if
+	  
+} // end of method
+
+
+// here we copy all groovy test source except our own Skeleton.groovy we use internally
+// so just name your class like HammerTest.groovy then, if needed, use groovy GString template placeholders like ${date} within your source
+task groovytest(type: Copy) {
+	def s = classname;
+    from 'templates/test'
+    into  file("../src/test/groovy${packagefolder}")
+    include '*.groovy'
+    exclude 'SkeletonTest.groovy'
+    
+    eachFile { println "... groovy all tests copied:"+it.name;
+    	def  i = it.name.indexOf('.'); 
+    	s = it.name.substring(0,i)
+    	
+	    // Substitute property tokens in files: expand() within eachFile lets us make classname same as filename prefix
+		m['classname'] = s;
+	    expand(m)
+    }
+    
+    outputs.upToDateWhen { false }
+} // end of task
+
+
+// here we copy all groovy source except our own Skeleton.groovy we use internally
+// so just name your class like Hammer.groovy then, if needed, use groovy GString template placeholders like ${date} within your source
+task groovy(type: Copy, dependsOn: groovytest) {
+	def s = classname;
+    from 'templates/main'
+    into  file("../src/main/groovy${packagefolder}")
+    include '*.groovy'
+    exclude 'Skeleton.groovy'
+    
+    eachFile { println "... groovy all copied:"+it.name;
+    	def  i = it.name.indexOf('.'); 
+    	s = it.name.substring(0,i)
+	    // Substitute property tokens in files: expand() within eachFile lets us make classname same as filename prefix
+		m['classname'] = s;
+	    expand(m)
+    }
+    doLast {
+        say(s) 
+    }
+    
+    outputs.upToDateWhen { false }
+} // end of task
+
+// ========================================================================================
+
+
+// here we copy all java test source except our own SkeletonTest.java we use internally
+// so just name your class like CheeseTest.java then, if needed, use groovy GString template placeholders like ${date} within your source
+task javatest(type: Copy) {
+	def s = classname;
+    from 'templates/test'
+    into  file("../src/test/groovy${packagefolder}")
+    include '*.java'
+    exclude 'SkeletonTest.java'
+    
+    eachFile { println "... java all test copied:"+it.name;
+    	def  i = it.name.indexOf('.'); 
+    	s = it.name.substring(0,i)
+	    // Substitute property tokens in files: expand() within eachFile lets us make classname same as filename prefix
+		m['classname'] = s;
+	    expand(m)
+    }
+    
+    outputs.upToDateWhen { false }
+} // end of task
+
+
+
+
+// here we copy all java source except our own Skeleton.java we use internally
+// so just name your class like Cheese.java then, if needed, use groovy GString template placeholders like ${date} within your source
+task java(type: Copy,dependsOn: javatest) {
+	def s = classname;
+    from 'templates/main'
+    into  file("../src/main/java${packagefolder}")
+    include '*.java'
+    exclude 'Skeleton.java'
+    
+    eachFile { println "... java all copied:"+it.name;
+    	def  i = it.name.indexOf('.'); 
+    	s = it.name.substring(0,i)
+
+	    // Substitute property tokens in files: expand() within eachFile lets us make classname same as filename prefix
+		m['classname'] = s;
+	    expand(m)
+    }
+    doLast {
+        say(s) 
+    }
+
+    outputs.upToDateWhen { false }
+} // end of task
+
+// ========================================================================================
+
+
+// here we copy all scala test source except our own SkeletonTest.scala we use internally
+// so just name your class like NailTest.scala then, if needed, use groovy GString template placeholders like ${date} within your source
+task scalatest(type: Copy) {
+	def s = classname;
+    from 'templates/test'
+    into  file("../src/test/scala${packagefolder}")
+    include '*.scala'
+    exclude 'SkeletonTest.scala'
+    
+    eachFile { println "... scala all test copied:"+it.name; 
+    	def  i = it.name.indexOf('.'); 
+    	s = it.name.substring(0,i)
+	    // Substitute property tokens in files: expand() within eachFile lets us make classname same as filename prefix
+		m['classname'] = s;
+	    expand(m)
+    }
+    
+    outputs.upToDateWhen { false }
+} // end of task
+
+
+// here we copy all scala source except our own Skeleton.scala we use internally
+// so just name your class like Nail.scala then, if needed, use groovy GString template placeholders like ${date} within your source
+task scala(type: Copy,dependsOn: scalatest) {
+	def s = classname;
+    from 'templates/main'
+    into  file("../src/main/scala${packagefolder}")
+    include '*.scala'
+    exclude 'Skeleton.scala'
+    
+    eachFile{ println "... scala all copied:"+it.sourceName; 
+    	def  i = it.name.indexOf('.'); 
+    	s = it.name.substring(0,i)
+	    // Substitute property tokens in files: expand() within eachFile lets us make classname same as filename prefix
+		m['classname'] = s;
+	    expand(m)
+    }
+    doLast {
+        say(s) 
+    }
+    
+    outputs.upToDateWhen { false }
+} // end of task
+
+
+// ========================================================================================
+

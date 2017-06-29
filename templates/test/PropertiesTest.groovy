@@ -26,28 +26,28 @@ import org.springframework.boot.test.OutputCapture
 
 class PropertiesTest extends spock.lang.Specification {
     @Shared
-	year ='2017'
+	year = "${year}"
 
     @Shared
-	alias ="jnorthr"
+	alias = "${githubuser}"
 
     @Shared
-	author ="Jim Northrop"
+	author = "${author}"
 
     @Shared
-	projectname="Toolkit"
+	projectname = "${projectname}"
 
     @Shared
-	packagename ="package com.jim.toolkit;"
+	packagename = "${packagename}"
 
     @Shared
-	packagefolder="/com/jim/toolkit"
+	packagefolder = "${packagefolder}"
 
     @Shared
-	packageid="com.jim.toolkit."
+	packageid = "${packageid}"
 
     @Shared
-	classname="Tools"
+	classname = "PropertiesTest"
 
 
 	@org.junit.Rule
@@ -81,14 +81,14 @@ class PropertiesTest extends spock.lang.Specification {
   		when:     'default PropertiesTest has been built'
 
 		then:     
-			year == "${year}"
-			alias == "${alias}"
-			author == "${author}"
-			projectname == "${projectname}"
-			classname == "${classname}"
-			packagename == "${packagename}"
-			packageid == "${packageid}"
-			packagefolder == "${packagefolder}"
+			year == "\${year}"
+			alias == "\${alias}"
+			author == "\${author}"
+			projectname == "\${projectname}"
+			classname == "\${classname}"
+			packagename == "\${packagename}"
+			packageid == "\${packageid}"
+			packagefolder == "\${packagefolder}"
 
   	} // end of feature method
 

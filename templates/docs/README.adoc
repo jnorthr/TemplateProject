@@ -1,16 +1,16 @@
-= https://github.com/jnorthr/TemplateProject/blob/master/README.md[Template Project README.md]
-${author} <${alias}@gmail.com>
+= https://github.com/${githubuser}/${projectname}/blob/master/README.md[${projectname} Project README.md]
+${author} <${author}@gmail.com>
 :toc: right
 :icons: font
 :description: ${projectname} Project Builder Templates.
 :keywords: git, github, gradle, groovy, project, builder, templates
 :numbered:
-:github_url: https://github.com/jnorthr/${projectname}
+:github_url: https://github.com/${githubuser}/${projectname}
 :github_project_path: {github_url}/tree/master
 :github_fork_badge: https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png
 
 [.badge]
-image:{github_fork_badge}[link="{github_url}"] Travis Build Status for [red]*${projectname}* Master Branch: image:https://travis-ci.org/jnorthr/${projectname}.svg?branch=master[Build Status,link=https://travis-ci.org/jnorthr/${projectname}]
+image:{github_fork_badge}[link="{github_url}"] Travis Build Status for [red]*${projectname}* Master Branch: image:https://travis-ci.org/${githubuser}/${projectname}.svg?branch=master[Build Status,link=https://travis-ci.org/${githubuser}/${projectname}]
 
 
 ''''

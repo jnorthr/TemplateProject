@@ -26,7 +26,7 @@ import groovy.transform.*;
  *
  */ 
  @Canonical 
- public class Hammer
+ public class ${classname}
  {
     /** an O/S specific char. as a file path divider */
     String fs = java.io.File.separator;
@@ -38,17 +38,16 @@ import groovy.transform.*;
    /** 
     * Variable name of current class.
     */  
-    String classname = "Hammer";
+    String classname = "${classname}";
 
 
    /** 
     * Default Constructor 
     * 
-    * @return Hammer object
     */     
-    public Hammer()
+    public ${classname}()
     {
-        classname = "running Hammer constructor written by \${author}"
+        classname = "running ${classname} constructor";
     } // end of constructor
 
 
@@ -59,21 +58,18 @@ import groovy.transform.*;
     */     
     public String toString()
     {
-        return """classname=Hammer
-user.home=\${home}
-java.io.File.separator=\${java.io.File.separator}
-"""
+        String tx = "classname="+classname+" user.home="+home+" java.io.File.separator="+java.io.File.separator;
+		return tx;
     }  // end of string
 
    /** 
     * Method to print audit log.
     * 
-    * @param the text to be said
-    * @return void
+    * @param msg the text to be said
     */     
-    public void say(txt)
+    public void say(String msg)
     {
-        println txt;
+        System.out.println(msg);
     }  // end of method
 
 
@@ -82,16 +78,15 @@ java.io.File.separator=\${java.io.File.separator}
     * Method to run class tests.
     * 
     * @param args Value is string array - possibly empty - of command-line values. 
-    * @return void
     */     
     public static void main(String[] args)
     {
-        println "--- starting ${classname} ---"
+        System.out.println("--- starting ${classname} ---");
 
-        Hammer obj = new Hammer();
+        ${classname} obj = new ${classname}();
         
-        println "Hammer = [\${obj.toString()}]"
-        println "--- the end of Hammer ---"
+        System.out.println("${classname} = ["+obj.toString()+"]");
+        System.out.println("--- the end of ${classname} ---");
     } // end of main
 
 } // end of class

@@ -9,6 +9,10 @@ Pre-requisites
 1. Working internet connection
 2. Installed Git client to copy/clone this repo
 3. Ability to use terminal console
+4. If no **projectname** value then pick ../$projectDir root folder name as it
+5. Merge tasks from copyDocs into copyCore
+6. Improve README
+7. Write bash script to build project
 
 Steps  
 1. Open terminal console

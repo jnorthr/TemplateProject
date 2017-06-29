@@ -26,7 +26,7 @@ import groovy.transform.*;
  *
  */ 
  @Canonical 
- public class ${classname}
+ public class Hammer
  {
     /** an O/S specific char. as a file path divider */
     String fs = java.io.File.separator;
@@ -38,16 +38,17 @@ import groovy.transform.*;
    /** 
     * Variable name of current class.
     */  
-    String classname = "${classname}";
+    String classname = "Hammer";
 
 
    /** 
     * Default Constructor 
     * 
+    * @return Hammer object
     */     
-    public ${classname}()
+    public Hammer()
     {
-        classname = "running ${classname} constructor";
+        classname = "running Hammer constructor written by ${author}"
     } // end of constructor
 
 
@@ -58,18 +59,21 @@ import groovy.transform.*;
     */     
     public String toString()
     {
-        String tx = "classname=\${classname} user.home="+home+" java.io.File.separator="+java.io.File.separator;
-		return tx;
+        return """classname=Hammer
+user.home=\${home}
+java.io.File.separator=\${java.io.File.separator}
+"""
     }  // end of string
 
    /** 
     * Method to print audit log.
     * 
-    * @param msg the text to be said
+    * @param the text to be said
+    * @return void
     */     
-    public void say(String msg)
+    public void say(txt)
     {
-        System.out.println(msg);
+        println txt;
     }  // end of method
 
 
@@ -78,15 +82,16 @@ import groovy.transform.*;
     * Method to run class tests.
     * 
     * @param args Value is string array - possibly empty - of command-line values. 
+    * @return void
     */     
     public static void main(String[] args)
     {
-        System.out.println("--- starting ${classname} ---");
+        println "--- starting ${classname} ---"
 
-        ${classname} obj = new ${classname}();
+        Hammer obj = new Hammer();
         
-        System.out.println("${classname} = [\${obj.toString()}]");
-        System.out.println("--- the end of ${classname} ---");
+        println "Hammer = [\${obj.toString()}]"
+        println "--- the end of Hammer ---"
     } // end of main
 
 } // end of class
