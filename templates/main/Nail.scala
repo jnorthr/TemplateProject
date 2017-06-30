@@ -18,7 +18,7 @@ ${packagename}
 
 object ${classname} {
   def main(args: Array[String]) {
-    println("Hello, ${classname}!")
+    println("Hello, ${classname} of the ${projectname} project!")
   }
 }
 

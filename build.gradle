@@ -19,6 +19,33 @@ repositories {
 
 dependencies {
     // Use the latest Groovy version for building this library
-    compile 'org.codehaus.groovy:groovy-all:2.4.11'
+    compile 'org.codehaus.groovy:groovy-all:2.4.12'
+
+    // Use the awesome Spock testing and specification framework
+    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.springframework.boot:spring-boot:1.2.1.RELEASE'
+    testCompile "org.scala-lang:scala-library:2.11.1"
+    testCompile group: 'org.scalatest', name: 'scalatest_2.12', version: '3.0.3'    
+}
+
+
+
+// runs the class main() method; args are ignored but maybe later ?
+task(runDialog, dependsOn: 'classes', type: JavaExec) {
+		main = "com.jim.toolkit.tools.Dialog"
+		classpath = sourceSets.main.runtimeClasspath
+		args 'jimbo', 'hi kids'
+		systemProperty 'simple.message', 'Hi kids '
+}
+
+
+
+// runs the class main() method; args are ignored but maybe later ?
+task(runProjectProperties, dependsOn: 'classes', type: JavaExec) {
+		main = "com.jim.toolkit.tools.ProjectProperties"
+		classpath = sourceSets.main.runtimeClasspath
+		args 'jimbo', 'hi kids'
+		systemProperty 'simple.message', 'Hi kids '
 }
 

@@ -8,3 +8,4 @@ packagename =package com.jim.toolkit.tools;
 packagefolder=/com/jim/toolkit/tools
 packageid=com.jim.toolkit.tools.
 classname=Tools
+email=men@work.com
