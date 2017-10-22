@@ -8,7 +8,7 @@
 
 apply plugin: 'groovy'
 
-defaultTasks 'clean'
+defaultTasks 'clean', 'build', 'core', 'docs', 'all'
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -48,4 +48,22 @@ task(runProjectProperties, dependsOn: 'classes', type: JavaExec) {
 		args 'jimbo', 'hi kids'
 		systemProperty 'simple.message', 'Hi kids '
 }
+
+task core(type: GradleBuild) {
+    buildFile = 'copyCore.gradle'
+    tasks = ['copy', 'resources']
+}
+
+task docs(type: GradleBuild) {
+    buildFile = 'copyDocs.gradle'
+    tasks = ['filterCopy', 'asciidoctor']
+}
+
+task all(type: GradleBuild) {
+    buildFile = 'copyAllSource.gradle'
+    tasks = ['groovy', 'java', 'scala']
+}
+
+
+
 
