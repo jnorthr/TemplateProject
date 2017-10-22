@@ -2,6 +2,8 @@
 // placeholder replacement Map
 Map m = [year: year, classname: classname, packagename:packagename, githubuser:githubuser, projectname:projectname, packagefolder:packagefolder, packageid:packageid, author:author]
 
+defaultTasks 'setup', 'ask'
+
 /*
 	A Method to update the build.gradle file of the root project with a run task for a newly created class
     Define methods b4 use; use 'ext' project scope so method seen everywhere;
@@ -28,15 +30,21 @@ ext.set = { fn ->
 	 	m['projectname']=xx;
 	 	pn=xx;
 	 } // end of if
+	 else
+	 {
+	 	println "... projectDir was not TemplateProject:"+xx;
+	 } // end of else
 
 } // end of method
 
+// needs more work here to choose lang. rather than scala
 task ask(type: Copy) {
 	def s = classname;
     from 'templates/main'
-    into  file("../src/main/scala${packagefolder}")
-    include '*.scala'
-    exclude 'Skeleton.scala'
+    into  file("../src/main/ask${packagefolder}")
+    include ['*.scala', '*.java', '*.groovy'] 
+    exclude 'Skeleton.scala', 'Skeleton.java', 'Skeleton.groovy'
+
     eachFile{ println "... scala all copied:"+it.sourceName; 
     	def  i = it.name.indexOf('.'); 
     	s = it.name.substring(0,i)
