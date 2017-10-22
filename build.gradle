@@ -8,7 +8,7 @@
 
 apply plugin: 'groovy'
 
-defaultTasks 'clean', 'build', 'core', 'docs', 'all'
+defaultTasks 'clean', 'build', 'core', 'docs', 'all', 'wrapper'
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -64,6 +64,9 @@ task all(type: GradleBuild) {
     tasks = ['groovy', 'java', 'scala']
 }
 
-
-
+// makes gradle wrapper one folder up - 
+task wrapper(type: Wrapper) {
+    jarFile = "${projectDir.getParent()}/gradle/wrapper/gradle-wrapper.jar"
+    scriptFile = "${projectDir.getParent()}/gradlew"
+}
 
