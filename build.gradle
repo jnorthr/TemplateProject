@@ -51,7 +51,7 @@ task(runProjectProperties, dependsOn: 'classes', type: JavaExec) {
 
 task core(type: GradleBuild) {
     buildFile = 'copyCore.gradle'
-    tasks = ['copy', 'resources']
+    tasks = ['copy', 'resources', 'props']
 }
 
 task docs(type: GradleBuild) {
