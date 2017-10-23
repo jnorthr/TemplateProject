@@ -8,7 +8,7 @@
 
 apply plugin: 'groovy'
 
-defaultTasks 'clean', 'build', 'core', 'docs', 'all', 'wrapper'
+defaultTasks 'clean', 'build', 'core', 'docs', 'all', 'one', 'wrapper'
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -62,6 +62,12 @@ task docs(type: GradleBuild) {
 task all(type: GradleBuild) {
     buildFile = 'copyAllSource.gradle'
     tasks = ['groovy', 'java', 'scala']
+}
+
+// create one source module for each language for gradle.properties single class of ( classname: classname )
+task one(type: GradleBuild) {
+    buildFile = 'copySource.gradle'
+    tasks = ['testGradleProperties', 'groovy', 'java', 'scala']
 }
 
 // makes gradle wrapper one folder up - 
