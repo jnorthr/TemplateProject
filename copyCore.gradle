@@ -31,4 +31,10 @@ task ('resources', type: Copy) {
   into file('../src/main/resources')
 }
 
+// copy up verbatim to parent folder
+task props(type: Copy) {
+  from file("${projectDir}") 
+  include 'gradle.properties'
+  into file("${projectDir}/..")
+} // end task
 
