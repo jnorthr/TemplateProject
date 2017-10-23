@@ -11,7 +11,7 @@ apply plugin: 'groovy'
 apply plugin: 'scala'
 apply plugin: 'application'
 
-defaultTasks 'clean','build','groovydoc','javadoc' //,'run'
+defaultTasks 'clean','build','groovydoc','javadoc' ,'run'
 mainClassName = "${packageid}${classname}"
 
 // In this section you declare where to find the dependencies of your project
@@ -23,7 +23,7 @@ repositories {
 
 dependencies {
     // Use the latest Groovy version for building this library
-    compile 'org.codehaus.groovy:groovy-all:2.4.11'
+    compile 'org.codehaus.groovy:groovy-all:2.4.12’
     compile 'org.scala-lang:scala-library:2.11.1'
 
     // Use the awesome Spock testing and specification framework
