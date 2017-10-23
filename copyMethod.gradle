@@ -2,7 +2,7 @@
 // placeholder replacement Map
 Map m = [year: year, classname: classname, packagename:packagename, githubuser:githubuser, projectname:projectname, packagefolder:packagefolder, packageid:packageid, author:author]
 
-defaultTasks 'setup', 'ask'
+defaultTasks 'setup', 'getGroovy', 'getScala', 'getJava'
 
 /*
 	A Method to update the build.gradle file of the root project with a run task for a newly created class
@@ -37,15 +37,19 @@ ext.set = { fn ->
 
 } // end of method
 
-// needs more work here to choose lang. rather than scala
+
+
+// keep as sample copy of source files from 'templates/main' into 'ask' folder
 task ask(type: Copy) {
 	def s = classname;
     from 'templates/main'
     into  file("../src/main/ask${packagefolder}")
-    include ['*.scala', '*.java', '*.groovy'] 
+    include '*.scala'
+    include '*.java' 
+    include '*.groovy'
     exclude 'Skeleton.scala', 'Skeleton.java', 'Skeleton.groovy'
 
-    eachFile{ println "... scala all copied:"+it.sourceName; 
+    eachFile{ println "... all copied:"+it.sourceName; 
     	def  i = it.name.indexOf('.'); 
     	s = it.name.substring(0,i)
 	    // Substitute property tokens in files: expand() within eachFile lets us make classname same as filename prefix
@@ -58,6 +62,135 @@ task ask(type: Copy) {
 } // end of task
 
 
+
+// task to copy any java test source that is not named SkeletonTest.java
+task getJavaTest(type: Copy) {
+	def s = classname;
+    from 'templates/test'
+    into  file("../src/test/java${packagefolder}")
+    include '*.java'
+    exclude 'SkeletonTest.java'
+
+    eachFile{ println "... all java tests copied:"+it.sourceName; 
+    	def  i = it.name.indexOf('.'); 
+    	s = it.name.substring(0,i)
+	    // Substitute property tokens in files: expand() within eachFile lets us make classname same as filename prefix
+		m['classname'] = s;
+		m['projectname']=pn;
+	    expand(m)
+    } // end of eachFile
+    
+    outputs.upToDateWhen { false }
+} // end of task
+
+
+// task to copy any scala test source that is not named SkeletonTest.scala
+task getScalaTest(type: Copy) {
+	def s = classname;
+    from 'templates/test'
+    into  file("../src/test/scala${packagefolder}")
+    include '*.scala'
+    exclude 'SkeletonTest.scala'
+
+    eachFile{ println "... all scala tests copied:"+it.sourceName; 
+    	def  i = it.name.indexOf('.'); 
+    	s = it.name.substring(0,i)
+	    // Substitute property tokens in files: expand() within eachFile lets us make classname same as filename prefix
+		m['classname'] = s;
+		m['projectname']=pn;
+	    expand(m)
+    } // end of eachFile
+    
+    outputs.upToDateWhen { false }
+} // end of task
+
+
+// task to copy any groovy test source that is not named SkeletonTest.groovy
+task getGroovyTest(type: Copy) {
+	def s = classname;
+    from 'templates/test'
+    into  file("../src/test/groovy${packagefolder}")
+    include '*.groovy'
+    exclude 'SkeletonTest.groovy'
+
+    eachFile{ println "... all groovy tests copied:"+it.sourceName; 
+    	def  i = it.name.indexOf('.'); 
+    	s = it.name.substring(0,i)
+	    // Substitute property tokens in files: expand() within eachFile lets us make classname same as filename prefix
+		m['classname'] = s;
+		m['projectname']=pn;
+	    expand(m)
+    } // end of eachFile
+    
+    outputs.upToDateWhen { false }
+} // end of task
+
+
+
+// task to copy any groovy source that is not named Skeleton.groovy
+task getGroovy(type: Copy, dependsOn: getGroovyTest) {
+	def s = classname;
+    from 'templates/main'
+    into  file("../src/main/groovy${packagefolder}")
+    include '*.groovy'
+    exclude 'Skeleton.groovy'
+
+    eachFile{ println "... all groovy copied:"+it.sourceName; 
+    	def  i = it.name.indexOf('.'); 
+    	s = it.name.substring(0,i)
+	    // Substitute property tokens in files: expand() within eachFile lets us make classname same as filename prefix
+		m['classname'] = s;
+		m['projectname']=pn;
+	    expand(m)
+    } // end of eachFile
+    
+    outputs.upToDateWhen { false }
+} // end of task
+
+
+// task to copy any scala source that is not named Skeleton.scala
+task getScala(type: Copy, dependsOn: getScalaTest) {
+	def s = classname;
+    from 'templates/main'
+    into  file("../src/main/scala${packagefolder}")
+    include '*.scala'
+    exclude 'Skeleton.scala'
+
+    eachFile{ println "... all scala copied:"+it.sourceName; 
+    	def  i = it.name.indexOf('.'); 
+    	s = it.name.substring(0,i)
+	    // Substitute property tokens in files: expand() within eachFile lets us make classname same as filename prefix
+		m['classname'] = s;
+		m['projectname']=pn;
+	    expand(m)
+    } // end of eachFile
+    
+    outputs.upToDateWhen { false }
+} // end of task
+
+
+// task to copy any java source that is not named Skeleton.java
+task getJava(type: Copy, dependsOn: getJavaTest) {
+	def s = classname;
+    from 'templates/main'
+    into  file("../src/main/java${packagefolder}")
+    include '*.java'
+    exclude 'Skeleton.java'
+
+    eachFile{ println "... all java copied:"+it.sourceName; 
+    	def  i = it.name.indexOf('.'); 
+    	s = it.name.substring(0,i)
+	    // Substitute property tokens in files: expand() within eachFile lets us make classname same as filename prefix
+		m['classname'] = s;
+		m['projectname']=pn;
+	    expand(m)
+    } // end of eachFile
+    
+    outputs.upToDateWhen { false }
+} // end of task
+
+
+// task to set map key 'projectname' to parent folder name
 task setup(type:Exec) {
   workingDir projectDir
 
@@ -75,5 +208,4 @@ task setup(type:Exec) {
   doLast {
   	set(projectDir) 
   }
-
 } // end of task
