@@ -23,7 +23,7 @@ repositories {
 
 dependencies {
     // Use the latest Groovy version for building this library
-    compile 'org.codehaus.groovy:groovy-all:2.4.12’
+    compile 'org.codehaus.groovy:groovy-all:2.4.12' 
     compile 'org.scala-lang:scala-library:2.11.1'
 
     // Use the awesome Spock testing and specification framework
