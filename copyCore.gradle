@@ -33,7 +33,7 @@ task ('resources', type: Copy) {
 
 // copy up verbatim to parent folder
 task ('props', type: Copy) {
-  from file("./") 
+  from file(projectDir) 
   include 'gradle.properties'
   into file("${projectDir}/..")
 } // end task
