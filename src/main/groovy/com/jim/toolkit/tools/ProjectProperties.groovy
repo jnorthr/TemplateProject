@@ -88,7 +88,7 @@ import groovy.transform.*;
     * from gradle command line using option -Pclassname=xxx 
     * Works just like 'classname' but for several sets of source files to be generated
     */  
-    def classes = [];
+    String classes = "";
 
    /** 
     * Variable name of Map of all internal variables.
@@ -104,6 +104,8 @@ import groovy.transform.*;
     public ProjectProperties()
     {
         println "running ProjectProperties constructor"
+        this.load();
+        map = this.toMap();
     } // end of constructor
 
 
@@ -247,8 +249,6 @@ classes=${classes}
         println "--- starting ProjectProperties ---"
 
         ProjectProperties obj = new ProjectProperties();
-        def ct = obj.load();
-        println "\n... map="+obj.map;
         println "ProjectProperties = [${obj.toString()}]"
         println "--- the end of ProjectProperties ---"
     } // end of main

@@ -93,11 +93,11 @@ import com.jim.toolkit.tools.ProjectProperties;
 swingBuilder.edt 
 {   // Simple change in look and feel.
     lookAndFeel 'nimbus'  
-    frame(title: 'Project Properties', size: [450, 380], minimumSize: [430, 348], show: true, locationRelativeTo: null, defaultCloseOperation: EXIT_ON_CLOSE) 
+    frame(title: 'Project Properties', size: [450, 480], minimumSize: [430, 480], show: true, locationRelativeTo: null, defaultCloseOperation: EXIT_ON_CLOSE) 
     { 
         borderLayout(vgap: 10)
         
-        panel(constraints: BorderLayout.CENTER, minimumSize:[400, 280], border: compoundBorder([emptyBorder(10), titledBorder('Enter your values:') ]) ) 
+        panel(constraints: BorderLayout.CENTER, minimumSize:[420, 440], border: compoundBorder([emptyBorder(10), titledBorder('Enter your values:') ]) ) 
         {
             tableLayout {
                 tr {
@@ -183,6 +183,15 @@ swingBuilder.edt
                     }
                 } // end of tr
                 
+                tr {
+                    td {
+                        label 'Classes :'
+                    }
+                    td {
+                        textField id: 'cs', columns: 25, address.classes
+                    }
+                } // end of tr
+                
                 
             } // end of tableLayout            
         } // end of panel
@@ -190,7 +199,7 @@ swingBuilder.edt
         panel(constraints: BorderLayout.SOUTH,maximumSize:[250, 50],background:Color.WHITE ) {
         	hbox{
 	            button text: 'O k', actionPerformed: { println 'ok';  }
-    	        button text: 'Save', actionPerformed: { println address; }
+    	        button text: 'Save', actionPerformed: { println address.toMap(); }
         	    button text: 'Exit', actionPerformed: { System.exit(0); }
             } // end of hbox
         } // end of panel
@@ -205,6 +214,7 @@ swingBuilder.edt
             packagefolder: bind { packagefolder.text },
             packageid: bind { packageid.text },
             classname: bind { cn.text },
+            classes: bind { cs.text },
             email: bind { email.text }
 
         } // end of frame  
