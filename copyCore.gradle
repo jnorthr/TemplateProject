@@ -1,6 +1,6 @@
 // expand() uses groovy GString ${} template placeholders declarations for replacements within included files
 
-defaultTasks 'copy', 'resources'
+defaultTasks 'copy', 'resources', 'props'
 
 // placeholder replacement Map
 Map m = [year: year, classname: classname, packagename:packagename, githubuser:githubuser, projectname:projectname, 
