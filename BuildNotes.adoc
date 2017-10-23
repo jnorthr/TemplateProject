@@ -43,8 +43,6 @@ gradlew
 // gradlew -b copyDocs.gradle 
 // gradlew -b copyAllSource.gradle 
 cd ..
-gradle --info
-gradle wrapper
-gradlew -v
+gradlew --info
 
 
