@@ -93,7 +93,7 @@ import com.jim.toolkit.tools.ProjectProperties;
 swingBuilder.edt 
 {   // Simple change in look and feel.
     lookAndFeel 'nimbus'  
-    frame(title: 'Project Properties', size: [450, 480], minimumSize: [430, 480], show: true, locationRelativeTo: null, defaultCloseOperation: EXIT_ON_CLOSE) 
+    frame(title: 'Project Properties', size: [450, 480], minimumSize: [430, 440], show: true, locationRelativeTo: null, defaultCloseOperation: EXIT_ON_CLOSE) 
     { 
         borderLayout(vgap: 10)
         
@@ -199,7 +199,7 @@ swingBuilder.edt
         panel(constraints: BorderLayout.SOUTH,maximumSize:[250, 50],background:Color.WHITE ) {
         	hbox{
 	            button text: 'O k', actionPerformed: { println 'ok';  }
-    	        button text: 'Save', actionPerformed: { println address.toMap(); }
+    	        button text: 'Save', actionPerformed: { address.dump(); }
         	    button text: 'Exit', actionPerformed: { System.exit(0); }
             } // end of hbox
         } // end of panel
@@ -207,16 +207,15 @@ swingBuilder.edt
         // Binding of textfield's to address object.
         bean address, 
             githubuser: bind { githubuser.text }, 
-            year: bind { year.text }, 
             author: bind { author.text },
+            year: bind { year.text }, 
             projectname: bind { projectname.text },
             packagename: bind { packagename.text },
             packagefolder: bind { packagefolder.text },
             packageid: bind { packageid.text },
             classname: bind { cn.text },
-            classes: bind { cs.text },
-            email: bind { email.text }
-
+            email: bind { email.text },
+            classes: bind { cs.text }
         } // end of frame  
 	  } // end of swingBuilder.edt
 

@@ -117,8 +117,8 @@ import groovy.transform.*;
     public String toString()
     {
         return """githubuser=${githubuser}
-year=${year}
 author=${author}
+year=${year}
 projectname=${projectname}
 packagename=${packagename}
 packagefolder=${packagefolder}
@@ -139,8 +139,8 @@ classes=${classes}
     {
     	def m = [:]
         m["githubuser"]=githubuser
+        m["author"]=author
 		m["year"]=year
-		m["author"]=author
 		m["projectname"]=projectname
 		m["packagename"]=packagename
 		m["packagefolder"]=packagefolder	
@@ -161,6 +161,25 @@ classes=${classes}
     {
         println txt;
     }  // end of method
+
+
+   /** 
+    * Method to write all object's variables to persistent store named gradle.properties.
+    * 
+    * @return true if write to new output file was successful
+    */     
+    public boolean dump()
+    {
+        def file5 = new File('gradle.properties');
+        file5.withWriter('UTF-8') {
+                it.writeLine 'org.gradle.daemon=true'  
+                it.writeLine 'org.gradle.parallel=true'
+                it.writeLine this.toString();
+        } // end of writer
+
+        return true;        
+    } // end of load
+
 
 
    /** 
