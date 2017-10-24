@@ -35,8 +35,8 @@ dependencies {
 task(runDialog, dependsOn: 'classes', type: JavaExec) {
 		main = "com.jim.toolkit.tools.Dialog"
 		classpath = sourceSets.main.runtimeClasspath
-		args 'jimbo', 'hi kids'
-		systemProperty 'simple.message', 'Hi kids '
+		args 'projectDir', projectDir
+		systemProperty 'project', projectDir
 }
 
 
@@ -45,8 +45,8 @@ task(runDialog, dependsOn: 'classes', type: JavaExec) {
 task(runProjectProperties, dependsOn: 'classes', type: JavaExec) {
 		main = "com.jim.toolkit.tools.ProjectProperties"
 		classpath = sourceSets.main.runtimeClasspath
-		args 'jimbo', 'hi kids'
-		systemProperty 'simple.message', 'Hi kids '
+		args 'projectDir', projectDir
+		systemProperty 'project', projectDir
 }
 
 task core(type: GradleBuild) {

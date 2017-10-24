@@ -90,6 +90,13 @@ import groovy.transform.*;
     */  
     String classes = "";
 
+
+   /** 
+    * Variable name of the actual folder for this project. Usually this is the projectDir folder name.
+    */  
+    String projectRoot = "";
+
+
    /** 
     * Variable name of Map of all internal variables.
     */  
@@ -107,6 +114,21 @@ import groovy.transform.*;
         this.load();
         map = this.toMap();
     } // end of constructor
+
+   /** 
+    * Non-Default Constructor 
+    * 
+    * @param projectDir has folder name of current project - NOT the parent folder name !
+    * @return ProjectProperties object
+    */     
+    public ProjectProperties(String projectDir)
+    {
+        println "running ProjectProperties constructor"
+        this.load();
+        projectRoot = projectDir;
+        map = this.toMap();
+    } // end of constructor
+
 
 
    /** 
@@ -126,6 +148,7 @@ packageid=${packageid}
 classname=${classname}
 email=${email}
 classes=${classes}
+projectRoot=${projectRoot}
 """
     }  // end of string
 
@@ -148,6 +171,7 @@ classes=${classes}
 		m["classname"]=classname
 		m["email"]=email
 		m["classes"]=classes
+		m["projectRoot"]=projectRoot
 		return m;
     }  // end of toMap
 
@@ -240,7 +264,8 @@ classes=${classes}
 							break;
 						case "classes": classes = t2; 
 							break;
-									
+						case "projectRoot": projectRoot = t2;
+							break;									
 					} // end of switch
 					
 				} // end of if
@@ -254,8 +279,6 @@ classes=${classes}
     } // end of load
     
 
-
-
    // ======================================
    /** 
     * Method to run class tests.
@@ -266,9 +289,19 @@ classes=${classes}
     public static void main(String[] args)
     {
         println "--- starting ProjectProperties ---"
-
-        ProjectProperties obj = new ProjectProperties();
-        println "ProjectProperties = [${obj.toString()}]"
+	    ProjectProperties obj;
+	         
+		if (args.size() > 0)
+		{
+			obj = new ProjectProperties(args[1].toString());
+			println "... projectDir:"+args[1];
+		} // end of if
+		else
+		{
+	        obj = new ProjectProperties();
+    	} // end of else
+    	    
+        println "ProjectProperties = [" + obj.toString() + "]"
         println "--- the end of ProjectProperties ---"
     } // end of main
 

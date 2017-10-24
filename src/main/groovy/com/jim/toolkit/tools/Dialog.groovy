@@ -59,6 +59,19 @@ import com.jim.toolkit.tools.ProjectProperties;
 
 
    /** 
+    * Non-Default Constructor 
+    * 
+    * @param projectDir tells us actual folder our project is running from
+    * @return Dialog object
+    */     
+    public Dialog(String projectDir)
+    {
+        classname = "running non-dft Dialog constructor"
+        address = new ProjectProperties(projectDir);
+    } // end of constructor
+
+
+   /** 
     * Method to display internal variables.
     * 
     * @return formatted content of internal variables
@@ -192,6 +205,15 @@ swingBuilder.edt
                     }
                 } // end of tr
                 
+                                
+                tr {
+                    td {
+                        label 'projectRoot :'
+                    }
+                    td {
+                        textField id: 'pr', columns: 25, address.projectRoot
+                    }
+                } // end of tr
                 
             } // end of tableLayout            
         } // end of panel
@@ -216,6 +238,7 @@ swingBuilder.edt
             classname: bind { cn.text },
             email: bind { email.text },
             classes: bind { cs.text }
+            projectRoot: bind { pr.text }
         } // end of frame  
 	  } // end of swingBuilder.edt
 
@@ -234,7 +257,17 @@ swingBuilder.edt
     {
         println "--- starting Dialog ---"
 
-        Dialog obj = new Dialog();
+        Dialog obj;
+		if (args.size() > 0)
+		{
+			obj = new Dialog(args[1].toString());
+			println "... projectDir:"+args[1];
+		} // end of if
+		else
+		{
+	        obj = new Dialog();
+    	} // end of else
+    	    
 		obj.build();        
         println "Dialog = [${obj.toString()}]"
         println "--- the end of Dialog ---"
