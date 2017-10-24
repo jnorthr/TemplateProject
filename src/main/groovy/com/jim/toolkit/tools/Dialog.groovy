@@ -199,8 +199,8 @@ swingBuilder.edt
         panel(constraints: BorderLayout.SOUTH,maximumSize:[250, 50],background:Color.WHITE ) {
         	hbox{
 	            button text: 'O k', actionPerformed: { println 'ok';  }
-    	        button text: 'Save', actionPerformed: { address.dump(); }
-        	    button text: 'Exit', actionPerformed: { System.exit(0); }
+    	        button text: 'Save', actionPerformed: { address.dump(); exit.requestFocus();}
+        	    button id: 'exit', text: 'Exit', actionPerformed: { System.exit(0); }
             } // end of hbox
         } // end of panel
         
