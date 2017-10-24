@@ -8,7 +8,7 @@
 
 apply plugin: 'groovy'
 
-defaultTasks 'clean', 'build', 'core', 'docs', 'all', 'one', 'single', 'wrapper'
+defaultTasks 'clean', 'build', 'runDialog', 'core', 'docs', 'all', 'one', 'single', 'wrapper'
 
 // In this section you declare where to find the dependencies of your project
 repositories {
