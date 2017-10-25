@@ -106,11 +106,11 @@ import com.jim.toolkit.tools.ProjectProperties;
 swingBuilder.edt 
 {   // Simple change in look and feel.
     lookAndFeel 'nimbus'  
-    frame(title: 'Project Properties', size: [450, 480], minimumSize: [430, 440], show: true, locationRelativeTo: null, defaultCloseOperation: EXIT_ON_CLOSE) 
+    frame(title: 'Project Properties', size: [500, 550], minimumSize: [450, 500], show: true, locationRelativeTo: null, defaultCloseOperation: EXIT_ON_CLOSE) 
     { 
         borderLayout(vgap: 10)
         
-        panel(constraints: BorderLayout.CENTER, minimumSize:[420, 440], border: compoundBorder([emptyBorder(10), titledBorder('Enter your values:') ]) ) 
+        panel(constraints: BorderLayout.CENTER, minimumSize:[450, 500], border: compoundBorder([emptyBorder(10), titledBorder('Enter your values:') ]) ) 
         {
             tableLayout {
                 tr {
@@ -140,16 +140,6 @@ swingBuilder.edt
                     }
                 } // end of tr
                 
-
-                tr {
-                    td {
-                        label 'Project Name:'
-                    }
-                    td {
-                        textField id: 'projectname', columns: 20, address.projectname
-                    }
-                } // end of tr
-                
                 tr {
                     td {
                         label 'Year:'
@@ -157,7 +147,111 @@ swingBuilder.edt
                     td {
                         textField id: 'year', columns: 5, text: address.year
                     }
-                }
+                } // end of tr
+
+                tr {
+                    td {
+                        label ' '
+                    }
+                    td {
+                        label ' '
+                    }
+                } // end of tr
+
+                tr {
+                    td {
+                        label 'Following Values '
+                    }
+                    td {
+                        label 'Are Physical Folder Locations '
+                    }
+                } // end of tr
+
+                tr {
+                    td {
+                        label 'Root Folder:'
+                    }
+                    td {
+                        textField id: 'pr', columns: 30, address.projectRoot
+                    }
+                } // end of tr
+
+                tr {
+                    td {
+                        label 'Project Folder:'
+                    }
+                    td {
+                        textField id: 'projectname', columns: 20, address.projectname
+                    }
+                } // end of tr                                
+
+                
+                tr {
+                    td {
+                        label 'Src Folder :'
+                    }
+                    td {
+                        textField id: 'packagefolder', columns: 25, address.packagefolder
+                    }
+                } // end of tr
+                
+
+
+                tr {
+                    td {
+                        label ' '
+                    }
+                    td {
+                        label ' '
+                    }
+                } // end of tr
+
+                tr {
+                    td {
+                        label 'Following Values '
+                    }
+                    td {
+                        label 'Generate Source Code Classes'
+                    }
+                } // end of tr
+                
+                tr {
+                    td {
+                        label 'First Class :'
+                    }
+                    td {
+                        textField id: 'cn', columns: 25, address.classname
+                    }
+                } // end of tr
+                
+                tr {
+                    td {
+                        label 'More Classes :'
+                    }
+                    td {
+                        textField id: 'cs', columns: 25, address.classes
+                    }
+                } // end of tr
+                
+
+
+                tr {
+                    td {
+                        label ' '
+                    }
+                    td {
+                        label ' '
+                    }
+                } // end of tr
+
+                tr {
+                    td {
+                        label 'Following Values '
+                    }
+                    td {
+                        label 'Inserted Into Generated Source '
+                    }
+                } // end of tr
 
                 tr {
                     td {
@@ -167,64 +261,28 @@ swingBuilder.edt
                         textField id: 'packagename', columns: 25, address.packagename
                     }
                 } // end of tr
-                
+
                 tr {
                     td {
-                        label 'Folder :'
-                    }
-                    td {
-                        textField id: 'packagefolder', columns: 25, address.packagefolder
-                    }
-                } // end of tr
-                
-                
-                tr {
-                    td {
-                        label 'Package Id :'
+                        label 'Src Pkg Id :'
                     }
                     td {
                         textField id: 'packageid', columns: 25, address.packageid
                     }
                 } // end of tr
                 
-                tr {
-                    td {
-                        label 'Classname :'
-                    }
-                    td {
-                        textField id: 'cn', columns: 25, address.classname
-                    }
-                } // end of tr
-                
-                tr {
-                    td {
-                        label 'Classes :'
-                    }
-                    td {
-                        textField id: 'cs', columns: 25, address.classes
-                    }
-                } // end of tr
-                
-                                
-                tr {
-                    td {
-                        label 'projectRoot :'
-                    }
-                    td {
-                        textField id: 'pr', columns: 25, address.projectRoot
-                    }
-                } // end of tr
-                
+                                                
             } // end of tableLayout            
         } // end of panel
-        
+
         panel(constraints: BorderLayout.SOUTH,maximumSize:[250, 50],background:Color.WHITE ) {
-        	hbox{
-	            button text: 'O k', actionPerformed: { println 'ok';  }
-    	        button text: 'Save', actionPerformed: { address.dump(); exit.requestFocus();}
-        	    button id: 'exit', text: 'Exit', actionPerformed: { System.exit(0); }
+            hbox{
+                button text: 'O k', actionPerformed: { System.exit(0); }
+                button text: 'Save', actionPerformed: { address.dump(); exit.requestFocus();}
+                button id: 'exit', text: 'Exit', actionPerformed: { System.exit(0); }
             } // end of hbox
         } // end of panel
+        
         
         // Binding of textfield's to address object.
         bean address, 
