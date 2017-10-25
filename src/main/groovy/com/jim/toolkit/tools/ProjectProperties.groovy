@@ -84,9 +84,14 @@ import groovy.transform.*;
 
    /** 
     * Variable name of a series of classnames being built in the chosen jvm language. Also
-    * used to name the output script as Tools.java Tools.groovy. Can be changed
-    * from gradle command line using option -Pclassname=xxx 
+    * used to name the output script as Tools.java Tools.groovy, etc. 
+    *
+    * Can be changed from gradle command line using option -Pclassname=xxx 
     * Works just like 'classname' but for several sets of source files to be generated
+    *
+    * List may be quote or apostrophe delimited but must have commas between each class name
+    * so: Fred,'Hammer.java',  "Screws.scala" would generate 3 source files of 1)Fred.groovy 2)Hammer.java 3)Screws.scala
+	* Trailing suffix of classname is optional & defaults to .groovy
     */  
     String classes = "";
 
@@ -278,6 +283,62 @@ projectRoot=${projectRoot}
         return count;        
     } // end of load
     
+   /** 
+    * Method to return a list of strings representing class names of sources to be built.
+    * 
+    * 
+    * @return List true if write to new output file was successful
+    */     
+    public List getClassNames() 
+    {
+        def names = [];
+        def goodnames = [];
+        String token="";
+
+        def cn = classes.trim();
+        if (cn.size() > 0)
+        {
+	        names = cn.tokenize( ',' )
+	        names.each{e-> 
+	        	println "... name=[${e}]"
+	        	token = e;
+
+	        	def f = e.trim();
+	        	println "... f=[${f}]"
+	        	int i = f.indexOf(/"/)
+	        	if ( i > -1 ) 
+	        	{
+	        		int j = f.lastIndexOf(/"/)
+	        		println "... end quote at j="+j;
+	        		if ( j > i )
+	        		{
+	        			token = f.substring(i+1,j).trim();
+			        	println "... f=[${token}]"
+	        		} // end of if
+	        	} // end of if
+	        	else
+	        	{
+	        		i = f.indexOf(/'/)
+		        	if ( i > -1 ) 
+		        	{
+		        		int k = f.lastIndexOf(/'/)
+		        		println "... end quote at k="+k;
+		        		if ( k > i )
+		        		{
+		        			token = f.substring(i+1,k).trim();
+			        		println "... f=[${token}]"
+		        		} // end  of if
+		        	} // end  of if
+	        	}
+
+	        	println "... token=[${token}]\n"
+	        } // end of each
+
+        } // end of if
+
+        return names;        
+    } // end of get
+
 
    // ======================================
    /** 
@@ -302,6 +363,8 @@ projectRoot=${projectRoot}
     	} // end of else
     	    
         println "ProjectProperties = [" + obj.toString() + "]"
+        obj.getClassNames();
+
         println "--- the end of ProjectProperties ---"
     } // end of main
 
