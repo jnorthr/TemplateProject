@@ -315,6 +315,11 @@ projectRoot=${projectRoot}
 	        			token = f.substring(i+1,j).trim();
 			        	println "... f=[${token}]"
 	        		} // end of if
+		        	else
+		        	{
+						token = f.substring(i+1).trim();
+			    		println "... f=[${token}]"
+		    		} // end of else
 	        	} // end of if
 	        	else
 	        	{
@@ -328,15 +333,31 @@ projectRoot=${projectRoot}
 		        			token = f.substring(i+1,k).trim();
 			        		println "... f=[${token}]"
 		        		} // end  of if
+		        		else
+		        		{
+							token = f.substring(i+1).trim();
+			        		println "... f=[${token}]"
+		        		} // end of else
 		        	} // end  of if
 	        	}
 
+				token.replaceAll('"',' ')
+				token.replaceAll(/\'/,' ')
+				token = token.trim();
+
+				if (token.size()>0) 
+				{ 
+					int m = token.indexOf('.');
+					if (m < 1) token+=".groovy";  
+					goodnames += token;
+				} // end of if
+				
 	        	println "... token=[${token}]\n"
 	        } // end of each
 
         } // end of if
 
-        return names;        
+        return goodnames;        
     } // end of get
 
 
@@ -363,8 +384,10 @@ projectRoot=${projectRoot}
     	} // end of else
     	    
         println "ProjectProperties = [" + obj.toString() + "]"
-        obj.getClassNames();
-
+        
+        def x = obj.getClassNames();
+		x.each{y-> println "... goodnames="+y; }
+		
         println "--- the end of ProjectProperties ---"
     } // end of main
 
