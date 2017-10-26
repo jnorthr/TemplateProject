@@ -27,8 +27,11 @@ defaultTasks 'filterCopy', 'asciidoctor'
 task('filterCopy', type: Copy) {
     from 'templates/docs'
     into file('../src/docs/asciidoc')
-    include '**/*.adoc'
-
+    include '*.adoc'
+    
+    // Only the value for this property differs for each created task.
+    duplicatesStrategy = 'warn'
+        
     // Substitute ${xxx} placeholder tokens in files
     expand(m)
 } // end of task
