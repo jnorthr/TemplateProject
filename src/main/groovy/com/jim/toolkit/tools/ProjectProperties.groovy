@@ -33,15 +33,15 @@ import groovy.transform.*;
     String githubuser = "jnorthr";
 
 
-    /** copyright year of authorship */ 
-    String year = "2017";
-
-        
    /** 
     * Variable full name of original author.
     */  
     String author = "Jim Northrop";
 
+
+    /** copyright year of authorship */ 
+    String year = "2017";
+        
 
    /** 
     * Variable name of this generated project. Usually this is the projectDir folder name.

@@ -67,7 +67,7 @@ task all(type: GradleBuild) {
 // create one source module for each language for gradle.properties single class of ( classname: classname )
 task one(type: GradleBuild) {
     buildFile = 'copySource.gradle'
-    tasks = ['testGradleProperties', 'groovy', 'java', 'scala']
+    tasks = ['groovy', 'java', 'scala']
 }
 
 // create one source module for each language for gradle.properties single class of ( classname: classname )
