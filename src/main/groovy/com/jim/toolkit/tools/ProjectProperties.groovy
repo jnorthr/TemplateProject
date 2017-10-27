@@ -157,6 +157,7 @@ classname=${classname}
 email=${email}
 classes=${classes}
 projectRoot=${projectRoot}
+projectFolder=${this.getProjectFolder()}
 """
     }  // end of string
 
@@ -180,6 +181,7 @@ projectRoot=${projectRoot}
 		m["email"]=email
 		m["classes"]=classes
 		m["projectRoot"]=projectRoot
+		m["projectFolder"]=this.getProjectFolder()
 		return m;
     }  // end of toMap
 
@@ -295,23 +297,31 @@ projectRoot=${projectRoot}
     */     
     public String getProjectDir() 
     {
-    	int k = projectRoot.lastIndexOf(fs);
-    	String t = (k < 0) ? projectRoot : projectRoot.substring(0,k) ;
-    	println "... ProjectProperties.getProjectDir()=${projectRoot} k=${k}"
+    	int j = projectRoot.lastIndexOf(fs);
+    	String t = (j < 0) ? projectRoot : projectRoot.substring(0,j) ;
+    	println "... ProjectProperties.getProjectDir()=${projectRoot} j=${j}"
         println "... t=[${t}]"
 
-    	k = t.lastIndexOf(fs);
+    	int k = t.lastIndexOf(fs);
         println "... k=[${k}]"
 
-    	t = (k < 0) ? t : t.substring(0,k) ;
-        println "... t=[${t}]"
-
-    	projectname = t.substring(k-3); // this should be a single /foldername
-    	projectRoot = t;
+    	projectname = projectRoot.substring(k,j); // this should be a single /foldername
+    	projectRoot = t.substring(0,k);
   
-        println "... ProjectProperties.getProjectDir()=${projectRoot} k=${k} t=[${t}] projectname=[${projectname}]"
+        println "... ProjectProperties.getProjectDir()=${projectRoot} j=${j} k=${k} t=[${t}] projectname=[${projectname}]"
   
     	return projectRoot;
+    } // end of getProjectDir
+
+    
+   /** 
+    * Method to return the actual local folder name holding this projectDir excluding the TemplateProject folder suffix.
+    * 
+    * @return String the parent folder name of our own TemplateProject
+    */     
+    public String getProjectFolder() 
+    {
+    	return projectRoot+projectname;
     } // end of getProjectDir
     
 
