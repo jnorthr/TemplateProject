@@ -21,14 +21,17 @@ import groovy.transform.*;
 /** 
  * ProjectProperties class description
  *
- * This is code with all bits needed to do a project
-
+ * This is code with all variable bits needed to do a project
  *
  */ 
  @Canonical 
  @groovy.beans.Bindable
  public class ProjectProperties
  {
+    /** an O/S specific char. as a file path divider */
+    String fs = java.io.File.separator;
+
+
     /** an id of GitHub user who will host this project */
     String githubuser = "jnorthr";
 
@@ -46,7 +49,7 @@ import groovy.transform.*;
    /** 
     * Variable name of this generated project. Usually this is the projectDir folder name.
     */  
-    String projectname = "Toolkit";
+    String projectname = "/Toolkit";
 
 
    /** 
@@ -283,9 +286,38 @@ projectRoot=${projectRoot}
         return count;        
     } // end of load
     
+    
+    
+   /** 
+    * Method to return a piece of the projectDir excluding the TemplateProject folder.
+    * 
+    * @return String the parent folder name of our own project
+    */     
+    public String getProjectDir() 
+    {
+    	int k = projectRoot.lastIndexOf(fs);
+    	String t = (k < 0) ? projectRoot : projectRoot.substring(0,k) ;
+    	println "... ProjectProperties.getProjectDir()=${projectRoot} k=${k}"
+        println "... t=[${t}]"
+
+    	k = t.lastIndexOf(fs);
+        println "... k=[${k}]"
+
+    	t = (k < 0) ? t : t.substring(0,k) ;
+        println "... t=[${t}]"
+
+    	projectname = t.substring(k-3); // this should be a single /foldername
+    	projectRoot = t;
+  
+        println "... ProjectProperties.getProjectDir()=${projectRoot} k=${k} t=[${t}] projectname=[${projectname}]"
+  
+    	return projectRoot;
+    } // end of getProjectDir
+    
+
+
    /** 
     * Method to return a list of strings representing class names of sources to be built.
-    * 
     * 
     * @return List true if write to new output file was successful
     */     
@@ -383,7 +415,8 @@ projectRoot=${projectRoot}
 	        obj = new ProjectProperties();
     	} // end of else
     	    
-        println "ProjectProperties = [" + obj.toString() + "]"
+    	println "... getProjectDir()=[${obj.getProjectDir()}]";
+        println "\nProjectProperties = [" + obj.toString() + "]"
         
         def x = obj.getClassNames();
 		x.each{y-> println "... goodnames="+y; }

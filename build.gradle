@@ -15,7 +15,8 @@ repositories {
     // Use jcenter for resolving your dependencies.
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
-}
+} // end of repos
+
 
 dependencies {
     // Use the latest Groovy version for building this library
@@ -27,7 +28,7 @@ dependencies {
     testCompile 'org.springframework.boot:spring-boot:1.2.1.RELEASE'
     testCompile "org.scala-lang:scala-library:2.11.1"
     testCompile group: 'org.scalatest', name: 'scalatest_2.12', version: '3.0.3'    
-}
+} // end of dependencies
 
 
 
@@ -37,9 +38,7 @@ task(runDialog, dependsOn: 'classes', type: JavaExec) {
 		classpath = sourceSets.main.runtimeClasspath
 		args 'projectDir', projectDir
 		systemProperty 'project', projectDir
-}
-
-
+} // end of task
 
 // runs the class main() method; args are ignored but maybe later ?
 task(runProjectProperties, dependsOn: 'classes', type: JavaExec) {
@@ -47,39 +46,49 @@ task(runProjectProperties, dependsOn: 'classes', type: JavaExec) {
 		classpath = sourceSets.main.runtimeClasspath
 		args 'projectDir', projectDir
 		systemProperty 'project', projectDir
-}
+} // end of task
+
+
+// runs the class main() method; args are ignored but maybe later ?
+task(runCreateSource, dependsOn: 'classes', type: JavaExec) {
+		main = "com.jim.toolkit.tools.CreateSource"
+		classpath = sourceSets.main.runtimeClasspath
+		args 'projectDir', projectDir
+		systemProperty 'project', projectDir
+} // end of task
+
 
 task core(type: GradleBuild) {
     buildFile = 'copyCore.gradle'
     tasks = ['copy', 'resources', 'props']
-}
+} // end of task
 
 task docs(type: GradleBuild) {
     buildFile = 'copyDocs.gradle'
     tasks = ['filterCopy', 'asciidoctor']
-}
+} // end of task
 
 task all(type: GradleBuild) {
     buildFile = 'copyAllSource.gradle'
     tasks = ['groovy', 'java', 'scala']
-}
+} // end of task
 
 // create one source module for each language for gradle.properties single class of ( classname: classname )
 task one(type: GradleBuild) {
     buildFile = 'copySource.gradle'
     tasks = ['groovy', 'java', 'scala']
-}
+} // end of task
 
 // create one source module for each language for gradle.properties single class of ( classname: classname )
 task single(type: GradleBuild) {
     buildFile = 'copyMethod.gradle'
     tasks = ['setup', 'getGroovy', 'getScala', 'getJava']
-}
+} // end of task
 
 
 // makes gradle wrapper one folder up - 
 task wrapper(type: Wrapper) {
     jarFile = "${projectDir.getParent()}/gradle/wrapper/gradle-wrapper.jar"
     scriptFile = "${projectDir.getParent()}/gradlew"
-}
+} // end of task
 
