@@ -118,7 +118,7 @@ swingBuilder.edt
                         label 'Git User:'  // text property is default, so it is implicit.
                     }
                     td {
-                        textField address.githubuser, id: 'githubuser', columns: 20
+                        textField address.gitHubUser, id: 'gitHubUser', columns: 20
                     }
                 }
 
@@ -181,17 +181,64 @@ swingBuilder.edt
                         label 'Project Folder:'
                     }
                     td {
-                        textField id: 'projectname', columns: 20, address.projectname
+                        textField id: 'projectName', columns: 20, address.projectName
                     }
                 } // end of tr                                
 
-                
+
+                tr {
+                    td {
+                        label 'Project Location:'
+                    }
+                    td {
+                        textField id: 'projectLocation', columns: 25, address.projectLocation
+                    }
+                } // end of tr                                
+
+                tr {
+                    td {
+                        label ' '
+                    }
+                    td {
+                        label ' '
+                    }
+                } // end of tr
+
+
+                tr {
+                    td {
+                        label 'Following Values '
+                    }
+                    td {
+                        label 'Inserted Into Generated Source '
+                    }
+                } // end of tr
+
+                                                                
                 tr {
                     td {
                         label 'Src Folder :'
                     }
                     td {
-                        textField id: 'packagefolder', columns: 25, address.packagefolder
+                        textField id: 'packageFolder', columns: 25, address.packageFolder
+                    }
+                } // end of tr
+                
+                tr {
+                    td {
+                        label 'Package :'
+                    }
+                    td {
+                        textField id: 'packageName', columns: 25, address.packageName
+                    }
+                } // end of tr
+
+                tr {
+                    td {
+                        label 'Src Pkg Prefix :'
+                    }
+                    td {
+                        textField id: 'packagePrefix', columns: 25, address.packagePrefix
                     }
                 } // end of tr
                 
@@ -220,7 +267,7 @@ swingBuilder.edt
                         label 'First Class :'
                     }
                     td {
-                        textField id: 'cn', columns: 25, address.classname
+                        textField id: 'cn', columns: 25, address.className
                     }
                 } // end of tr
                 
@@ -233,45 +280,6 @@ swingBuilder.edt
                     }
                 } // end of tr
                 
-
-
-                tr {
-                    td {
-                        label ' '
-                    }
-                    td {
-                        label ' '
-                    }
-                } // end of tr
-
-                tr {
-                    td {
-                        label 'Following Values '
-                    }
-                    td {
-                        label 'Inserted Into Generated Source '
-                    }
-                } // end of tr
-
-                tr {
-                    td {
-                        label 'Package :'
-                    }
-                    td {
-                        textField id: 'packagename', columns: 25, address.packagename
-                    }
-                } // end of tr
-
-                tr {
-                    td {
-                        label 'Src Pkg Id :'
-                    }
-                    td {
-                        textField id: 'packageid', columns: 25, address.packageid
-                    }
-                } // end of tr
-                
-                                                
             } // end of tableLayout            
         } // end of panel
 
@@ -286,14 +294,14 @@ swingBuilder.edt
         
         // Binding of textfield's to address object.
         bean address, 
-            githubuser: bind { githubuser.text }, 
+            gitHubUser: bind { gitHubUser.text }, 
             author: bind { author.text },
             year: bind { year.text }, 
-            projectname: bind { projectname.text },
-            packagename: bind { packagename.text },
-            packagefolder: bind { packagefolder.text },
-            packageid: bind { packageid.text },
-            classname: bind { cn.text },
+            projectName: bind { projectName.text },
+            packageName: bind { packageName.text },
+            packageFolder: bind { packageFolder.text },
+            packagePrefix: bind { packagePrefix.text },
+            className: bind { cn.text },
             email: bind { email.text },
             classes: bind { cs.text }
             projectRoot: bind { pr.text }

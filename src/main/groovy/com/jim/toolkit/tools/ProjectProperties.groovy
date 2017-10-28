@@ -33,7 +33,7 @@ import groovy.transform.*;
 
 
     /** an id of GitHub user who will host this project */
-    String githubuser = "jnorthr";
+    String gitHubUser = "jnorthr";
 
 
    /** 
@@ -41,48 +41,59 @@ import groovy.transform.*;
     */  
     String author = "Jim Northrop";
 
+   /** 
+    * Variable name of email for documentation purposes.
+    */  
+    String email = "men@work.com";
+
 
     /** copyright year of authorship */ 
     String year = "2017";
-        
+       
+
+   /** 
+    * Variable name of the actual folder for this project. Usually this is the projectDir folder name.
+    */  
+    String projectLocation = System.getProperty("user.dir");;
+
+
+   /** 
+    * Variable name of the actual folder for this project. Usually this is the projectDir folder name.
+    */  
+    String projectRoot = System.getProperty("user.dir");;
+
 
    /** 
     * Variable name of this generated project. Usually this is the projectDir folder name.
     */  
-    String projectname = "/Toolkit";
-
-
-   /** 
-    * Variable value of package statement copied into jvm language source code.
-    */  
-    String packagename = "package com.jim.toolkit.tools;";
+    String projectName = "/Toolkit";
 
 
    /** 
     * Hardware folder name hosting this project. Used to build folder hierarchy
     * within xxx/src/main/groovy etc.
     */  
-    String packagefolder = "/com/jim/toolkit/tools";
+    String packageFolder = "/com/jim/toolkit/tools";
+
+
+   /** 
+    * Variable value of package statement copied into jvm language source code.
+    */  
+    String packageName = "package com.jim.toolkit.tools;";
 
 
    /** 
     * Software folder name hosting this project. Used in import statements
     * mirrors packagefolder structure.
     */  
-    String packageid = "com.jim.toolkit.tools.";
+    String packagePrefix = "com.jim.toolkit.tools.";
 
    /** 
     * Variable name of the class being built in the chosen jvm language. Also
     * used to name the output script as Tools.java Tools.groovy. Can be changed
     * from gradle command line using option -Pclassname=xxx 
     */  
-    String classname = "Tools";
-
-
-   /** 
-    * Variable name of email for documentation purposes.
-    */  
-    String email = "men@work.com";
+    String className = "Tools";
 
 
    /** 
@@ -100,12 +111,6 @@ import groovy.transform.*;
 
 
    /** 
-    * Variable name of the actual folder for this project. Usually this is the projectDir folder name.
-    */  
-    String projectRoot = "";
-
-
-   /** 
     * Variable name of Map of all internal variables.
     */  
 	Map map = [:]
@@ -120,6 +125,7 @@ import groovy.transform.*;
     {
         println "running ProjectProperties constructor"
         this.load();
+        this.setProjectLocation();
         map = this.toMap();
     } // end of constructor
 
@@ -131,9 +137,10 @@ import groovy.transform.*;
     */     
     public ProjectProperties(String projectDir)
     {
-        println "running ProjectProperties constructor"
+        println "running ProjectProperties non-dft constructor [${projectDir}]"
         this.load();
         projectRoot = projectDir;
+        this.setProjectLocation();
         map = this.toMap();
     } // end of constructor
 
@@ -146,18 +153,18 @@ import groovy.transform.*;
     */     
     public String toString()
     {
-        return """githubuser=${githubuser}
+        return """gitHubUser=${gitHubUser}
 author=${author}
-year=${year}
-projectname=${projectname}
-packagename=${packagename}
-packagefolder=${packagefolder}
-packageid=${packageid}
-classname=${classname}
 email=${email}
-classes=${classes}
+year=${year}
 projectRoot=${projectRoot}
-projectFolder=${this.getProjectFolder()}
+projectName=${projectName}
+projectLocation=${projectLocation}
+packageFolder=${packageFolder}
+packageName=${packageName}
+packagePrefix=${packagePrefix}
+className=${className}
+classes=${classes}
 """
     }  // end of string
 
@@ -170,18 +177,20 @@ projectFolder=${this.getProjectFolder()}
     public Map toMap()
     {
     	def m = [:]
-        m["githubuser"]=githubuser
+        m["gitHubUser"]=gitHubUser
         m["author"]=author
+        m["email"]=email
 		m["year"]=year
-		m["projectname"]=projectname
-		m["packagename"]=packagename
-		m["packagefolder"]=packagefolder	
-		m["packageid"]=packageid
-		m["classname"]=classname
-		m["email"]=email
+
+        m["projectRoot"]=projectRoot
+		m["projectName"]=projectName
+        m["projectLocation"]=projectLocation
+
+        m["packageFolder"]=packageFolder    
+		m["packageName"]=packageName
+		m["packagePrefix"]=packagePrefix
+		m["className"]=className
 		m["classes"]=classes
-		m["projectRoot"]=projectRoot
-		m["projectFolder"]=this.getProjectFolder()
 		return m;
     }  // end of toMap
 
@@ -248,34 +257,39 @@ projectFolder=${this.getProjectFolder()}
                     toks = txs.split('=')
                     //println "... toks.size()="+toks.size();
                     
-                    def t1 = toks[0].trim(); // key
-                    def t2 = toks[1].trim(); // value
-					//println "... token 0 =[$t1] and token 1 = [${t2}]"
+                    def t1 = toks[0].trim(); // typically, the key
+                    def t2 = (toks.size() > 1) ? toks[1].trim() : ""; // value
+					println "... token 0 =[$t1] and token 1 = [${t2}]"
 					
 					switch (t1)
 					{
-						case "githubuser": githubuser = t2; 
+						case "gitHubUser": gitHubUser = t2; 
 							break;
+                        case "author": author = t2; 
+                            break;
+                        case "email": email = t2; 
+                            break;
 						case "year": year = t2; 
 							break;
-						case "author": author = t2; 
+
+                        case "projectRoot": projectRoot = t2;
+                            break;                                  
+						case "projectName": projectName = t2; 
 							break;
-						case "projectname": projectname = t2; 
+                        case "projectLocation": projectLocation = t2;
+                            break;                                  
+
+                        case "packageFolder": packageFolder = t2; 
+                            break;
+						case "packageName": packageName = t2; 
 							break;
-						case "packagename": packagename = t2; 
+						case "packagePrefix": packagePrefix = t2; 
 							break;
-						case "packagefolder": packagefolder = t2; 
-							break;
-						case "packageid": packageid = t2; 
-							break;
-						case "classname": classname = t2; 
-							break;
-						case "email": email = t2; 
+
+						case "className": className = t2; 
 							break;
 						case "classes": classes = t2; 
 							break;
-						case "projectRoot": projectRoot = t2;
-							break;									
 					} // end of switch
 					
 				} // end of if
@@ -291,39 +305,35 @@ projectFolder=${this.getProjectFolder()}
     
     
    /** 
-    * Method to return a piece of the projectDir excluding the TemplateProject folder.
+    * Method to return a piece of the projectDir excluding the TemplateProject folder. It
+    * then divides it into two var.s called: projectRoot + projectName
     * 
-    * @return String the parent folder name of our own project
+    * @return String the parent folder name above our own TemplateProject
     */     
-    public String getProjectDir() 
+    public String setProjectLocation() 
     {
-    	int j = projectRoot.lastIndexOf(fs);
+    	int j = this.projectRoot.lastIndexOf(fs);
+        println "\n... projectRoot=[${projectRoot}] j=${j}"
+
     	String t = (j < 0) ? projectRoot : projectRoot.substring(0,j) ;
-    	println "... ProjectProperties.getProjectDir()=${projectRoot} j=${j}"
         println "... t=[${t}]"
 
     	int k = t.lastIndexOf(fs);
         println "... k=[${k}]"
 
-    	projectname = projectRoot.substring(k,j); // this should be a single /foldername
-    	projectRoot = t.substring(0,k);
+        if (k > -1)
+        {
+    	   projectName = projectRoot.substring(k,j); // this should be a single /foldername
+           println "... projectName set to=[${projectName}]"           
+    	   projectRoot = t.substring(0,k);
+           println "... projectRoot set to=[${projectRoot}]"           
+        } // end of if
   
-        println "... ProjectProperties.getProjectDir()=${projectRoot} j=${j} k=${k} t=[${t}] projectname=[${projectname}]"
+        println "... setProjectLocation ended with projectRoot=${projectRoot} projectName=[${projectName}]"
   
-    	return projectRoot;
-    } // end of getProjectDir
-
-    
-   /** 
-    * Method to return the actual local folder name holding this projectDir excluding the TemplateProject folder suffix.
-    * 
-    * @return String the parent folder name of our own TemplateProject
-    */     
-    public String getProjectFolder() 
-    {
-    	return projectRoot+projectname;
-    } // end of getProjectDir
-    
+        projectLocation = projectRoot + projectName;
+    	return projectLocation;
+    } // end of setProjectDir
 
 
    /** 
@@ -391,7 +401,11 @@ projectFolder=${this.getProjectFolder()}
 				{ 
 					int m = token.indexOf('.');
 					if (m < 1) token+=".groovy";  
-					goodnames += token;
+                    String na = token.toLowerCase();
+                    if (na.endsWith(".groovy") || na.endsWith(".java")  || na.endsWith(".scala" ))
+                    {
+                        goodnames += token;
+                    }  // end of if
 				} // end of if
 				
 	        	println "... token=[${token}]\n"
@@ -417,20 +431,25 @@ projectFolder=${this.getProjectFolder()}
 	         
 		if (args.size() > 0)
 		{
+            println "... using directory :"+args[1];
 			obj = new ProjectProperties(args[1].toString());
-			println "... projectDir:"+args[1];
 		} // end of if
 		else
 		{
 	        obj = new ProjectProperties();
     	} // end of else
-    	    
-    	println "... getProjectDir()=[${obj.getProjectDir()}]";
+
         println "\nProjectProperties = [" + obj.toString() + "]"
-        
+
+        Map m = obj.toMap()
+        m.each{k,v-> println "... map[${k}]=[${v}]"}
+
         def x = obj.getClassNames();
-		x.each{y-> println "... goodnames="+y; }
+		x.each{y-> println "... create source file name="+y; }
 		
+        // write updated version of gradle.properties with this TemplateProject folder
+        obj.dump();
+
         println "--- the end of ProjectProperties ---"
     } // end of main
 
