@@ -3,7 +3,7 @@
 defaultTasks 'copy', 'resources', 'props'
 
 // placeholder replacement Map
-Map m = [githubuser:githubuser, author:author, year: year, projectname:projectname, packagename:packagename, packagefolder:packagefolder, packageid:packageid, classname: classname, email:email, classes:classes, projectRoot:projectRoot ]
+Map m = [gitHubUser:gitHubUser, author:author, year: year, projectName:projectName, packageName:packageName, packageFolder:packageFolder, packagePrefix:packagePrefix, className: className, email:email, classes:classes, projectRoot:projectRoot ]
 
 task copy(type: Copy) {
   from file('./templates/docs') 
