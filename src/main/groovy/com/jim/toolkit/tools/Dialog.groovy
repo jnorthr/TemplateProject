@@ -267,7 +267,7 @@ swingBuilder.edt
                         label 'First Class :'
                     }
                     td {
-                        textField id: 'cn', columns: 25, address.className
+                        textField id: 'cn', columns: 25, address.primaryClassName
                     }
                 } // end of tr
                 
@@ -296,15 +296,19 @@ swingBuilder.edt
         bean address, 
             gitHubUser: bind { gitHubUser.text }, 
             author: bind { author.text },
+            email: bind { email.text },
             year: bind { year.text }, 
+
+            projectRoot: bind { pr.text },
             projectName: bind { projectName.text },
+            projectLocation: bind { projectLocation.text },
+
             packageName: bind { packageName.text },
             packageFolder: bind { packageFolder.text },
             packagePrefix: bind { packagePrefix.text },
-            className: bind { cn.text },
-            email: bind { email.text },
+            
+            primaryClassName: bind { cn.text },
             classes: bind { cs.text }
-            projectRoot: bind { pr.text }
         } // end of frame  
 	  } // end of swingBuilder.edt
 

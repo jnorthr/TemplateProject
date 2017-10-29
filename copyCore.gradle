@@ -3,13 +3,12 @@
 defaultTasks 'copy', 'resources', 'props'
 
 // placeholder replacement Map
-Map m = [gitHubUser:gitHubUser, author:author, year: year, projectName:projectName, packageName:packageName, packageFolder:packageFolder, packagePrefix:packagePrefix, className: className, email:email, classes:classes, projectRoot:projectRoot ]
+Map m = [gitHubUser:gitHubUser,author:author,email:email,year:year,projectRoot:projectRoot,projectName:projectName,projectLocation:projectLocation,packageFolder:packageFolder,packageName:packageName,packagePrefix:packagePrefix,primaryClassName:primaryClassName,classes:classes]
 
 task copy(type: Copy) {
   from file('./templates/docs') 
-  
   include '**/*.txt'
-  into file("${projectDir}/..")
+  into file(projectLocation)
 
   // turn off Ant suppression of files to copy
   org.apache.tools.ant.DirectoryScanner.removeDefaultExclude("**/.gitignore")
@@ -18,7 +17,6 @@ task copy(type: Copy) {
   // Substitute property tokens in files
   expand(m)
   rename { it - '.txt' }
-
 } // end task
 
 
@@ -33,6 +31,6 @@ task ('resources', type: Copy) {
 task ('props', type: Copy) {
   from file(projectDir) 
   include 'gradle.properties'
-  into file("${projectDir}/..")
+  into file("${projectLocation}")
 } // end task
 

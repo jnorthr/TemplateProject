@@ -54,12 +54,6 @@ import groovy.transform.*;
    /** 
     * Variable name of the actual folder for this project. Usually this is the projectDir folder name.
     */  
-    String projectLocation = System.getProperty("user.dir");;
-
-
-   /** 
-    * Variable name of the actual folder for this project. Usually this is the projectDir folder name.
-    */  
     String projectRoot = System.getProperty("user.dir");;
 
 
@@ -67,6 +61,12 @@ import groovy.transform.*;
     * Variable name of this generated project. Usually this is the projectDir folder name.
     */  
     String projectName = "/Toolkit";
+
+
+   /** 
+    * Variable name of the actual folder for this project. Usually this is the projectDir folder name.
+    */  
+    String projectLocation = System.getProperty("user.dir");;
 
 
    /** 
@@ -91,21 +91,21 @@ import groovy.transform.*;
    /** 
     * Variable name of the class being built in the chosen jvm language. Also
     * used to name the output script as Tools.java Tools.groovy. Can be changed
-    * from gradle command line using option -Pclassname=xxx 
+    * from gradle command line using option -PprimaryClassName=xxx 
     */  
-    String className = "Tools";
+    String primaryClassName = "Tools";
 
 
    /** 
-    * Variable name of a series of classnames being built in the chosen jvm language. Also
+    * Variable name of a series of primaryClassName's being built in the chosen jvm language. Also
     * used to name the output script as Tools.java Tools.groovy, etc. 
     *
-    * Can be changed from gradle command line using option -Pclassname=xxx 
-    * Works just like 'classname' but for several sets of source files to be generated
+    * Can be changed from gradle command line using option -Pclasses=xxx 
+    * Works just like 'primaryClassName' but for several sets of source files to be generated
     *
     * List may be quote or apostrophe delimited but must have commas between each class name
     * so: Fred,'Hammer.java',  "Screws.scala" would generate 3 source files of 1)Fred.groovy 2)Hammer.java 3)Screws.scala
-	* Trailing suffix of classname is optional & defaults to .groovy
+	* Trailing suffix of primaryClassName is optional & defaults to .groovy
     */  
     String classes = "";
 
@@ -126,6 +126,7 @@ import groovy.transform.*;
         println "running ProjectProperties constructor"
         this.load();
         this.setProjectLocation();
+        primaryClassName = fixPrimaryClassName();
         map = this.toMap();
     } // end of constructor
 
@@ -141,6 +142,7 @@ import groovy.transform.*;
         this.load();
         projectRoot = projectDir;
         this.setProjectLocation();
+        primaryClassName = fixPrimaryClassName();
         map = this.toMap();
     } // end of constructor
 
@@ -163,7 +165,7 @@ projectLocation=${projectLocation}
 packageFolder=${packageFolder}
 packageName=${packageName}
 packagePrefix=${packagePrefix}
-className=${className}
+primaryClassName=${primaryClassName}
 classes=${classes}
 """
     }  // end of string
@@ -189,7 +191,7 @@ classes=${classes}
         m["packageFolder"]=packageFolder    
 		m["packageName"]=packageName
 		m["packagePrefix"]=packagePrefix
-		m["className"]=className
+		m["primaryClassName"]=primaryClassName
 		m["classes"]=classes
 		return m;
     }  // end of toMap
@@ -286,7 +288,7 @@ classes=${classes}
 						case "packagePrefix": packagePrefix = t2; 
 							break;
 
-						case "className": className = t2; 
+						case "primaryClassName": primaryClassName = t2; 
 							break;
 						case "classes": classes = t2; 
 							break;
@@ -302,8 +304,25 @@ classes=${classes}
         return count;        
     } // end of load
     
+
     
+   /** 
+    * Method to return a naked class name with no source file suffix like .groovy
+    * 
+    * @return String the class name with no trailing suffix like .java, .groovy, etc.
+	*/
+    public String fixPrimaryClassName() 
+    {
+    	int j = primaryClassName.indexOf('.');
+        print "\n... fixPrimaryClassName()=[${primaryClassName}] j=${j} "
+
+    	def t = (j < 0) ? primaryClassName : primaryClassName.substring(0,j) ;
+        println " now: t=[${t}]"
+        return t.toString();
+	} // end of method    
+
     
+
    /** 
     * Method to return a piece of the projectDir excluding the TemplateProject folder. It
     * then divides it into two var.s called: projectRoot + projectName
@@ -323,7 +342,7 @@ classes=${classes}
 
         if (k > -1)
         {
-    	   projectName = projectRoot.substring(k,j); // this should be a single /foldername
+    	   projectName = projectRoot.substring(k+1,j); // this should be a single /foldername
            println "... projectName set to=[${projectName}]"           
     	   projectRoot = t.substring(0,k);
            println "... projectRoot set to=[${projectRoot}]"           
@@ -331,7 +350,7 @@ classes=${classes}
   
         println "... setProjectLocation ended with projectRoot=${projectRoot} projectName=[${projectName}]"
   
-        projectLocation = projectRoot + projectName;
+        projectLocation = projectRoot + fs + projectName;
     	return projectLocation;
     } // end of setProjectDir
 

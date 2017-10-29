@@ -4,7 +4,7 @@
 */
 
 // placeholder replacement Map
-Map m = [gitHubUser:gitHubUser, author:author, year: year, projectName:projectName, packageName:packageName, packageFolder:packageFolder, packagePrefix:packagePrefix, className: className, email:email, classes:classes, projectRoot:projectRoot ]
+Map m = [gitHubUser:gitHubUser,author:author,email:email,year:year,projectRoot:projectRoot,projectName:projectName,projectLocation:projectLocation,packageFolder:packageFolder,packageName:packageName,packagePrefix:packagePrefix,primaryClassName:primaryClassName,classes:classes]
 
 defaultTasks 'setup', 'getGroovy', 'getScala', 'getJava'
 
