@@ -8,7 +8,9 @@
 
 apply plugin: 'groovy'
 
-defaultTasks 'clean', 'build', 'runDialog', 'core', 'docs', 'all', 'one', 'single', 'wrapper'
+Map m = [:]
+
+defaultTasks 'resolveProperties', 'clean', 'build', 'runDialog', 'core', 'docs', 'all', 'one', 'single', 'wrapper'
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -29,7 +31,6 @@ dependencies {
     testCompile "org.scala-lang:scala-library:2.11.1"
     testCompile group: 'org.scalatest', name: 'scalatest_2.12', version: '3.0.3'    
 } // end of dependencies
-
 
 
 // runs the class main() method; args are ignored but maybe later ?
@@ -55,6 +56,22 @@ task(runCreateSource, dependsOn: 'classes', type: JavaExec) {
 		classpath = sourceSets.main.runtimeClasspath
 		args 'projectDir', projectDir
 		systemProperty 'project', projectDir
+} // end of task
+
+
+// provide values for any missing map properties
+task setup(type: GradleBuild) {
+    buildFile = 'setup.gradle'
+    tasks = ['resolveProperties']
+} // end of task
+
+
+// File: test.gradle
+task (resolveProperties).doFirst{
+    //println "hasProperty(author) -> ${project.hasProperty('author') ? project.property('author') : 'default author value for hasProperty()'}"
+    //println "findProperty(author) -> ${project.findProperty('author') ?: 'default author value for findProperty'}"
+	m['gitHubUser']=project.hasProperty('gitHubUser') ? project.property('gitHubUser') : 'Whats my github name?';	
+	m['projectLocation']=project.findProperty('projectLocation') ?: projectDir;	
 } // end of task
 
 
@@ -88,6 +105,7 @@ task single(type: GradleBuild) {
 
 // makes gradle wrapper one folder up - 
 task wrapper(type: Wrapper) {
+	gradleVersion = '4.3'
     jarFile = "${projectDir.getParent()}/gradle/wrapper/gradle-wrapper.jar"
     scriptFile = "${projectDir.getParent()}/gradlew"
 } // end of task

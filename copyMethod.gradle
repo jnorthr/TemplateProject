@@ -4,11 +4,11 @@
 */
 
 // placeholder replacement Map
-Map m = [gitHubUser:gitHubUser,author:author,email:email,year:year,projectRoot:projectRoot,projectName:projectName,projectLocation:projectLocation,packageFolder:packageFolder,packageName:packageName,packagePrefix:packagePrefix,primaryClassName:primaryClassName,classes:classes]
+Map m = [gitHubUser:gitHubUser, author:author, email:email, year:year, projectRoot:projectRoot, projectName:projectName, projectLocation:projectLocation,packageFolder:packageFolder,packageName:packageName,packagePrefix:packagePrefix,primaryClassName:primaryClassName,classes:classes]
 
 defaultTasks 'setup', 'getGroovy', 'getScala', 'getJava'
 
-String pn=ext.projectname
+String pn=ext.projectName
 
 ext.set = { fn ->
 	 String fs = java.io.File.separator;
@@ -17,6 +17,7 @@ ext.set = { fn ->
 	 int j = xx.lastIndexOf(fs);	 	  
 	 if (j>0) {xx=xx.substring(j+1)}
 	 println "... the project folder was found at [${projectDir}] and ${fs} was at ${j} with final token of [${xx}]";
+	 
 	 if (xx=="TemplateProject")
 	 {
 	 	xx = "${projectDir}"
@@ -24,10 +25,10 @@ ext.set = { fn ->
 	 	println "... within our folder so move up one level to [${xx}]";
 	 	j = xx.lastIndexOf(fs);
 	 	xx=xx.substring(j+1)
-	 	projectname=xx;
+	 	projectName=xx;
 	 	println "... root folder name of our project is [${xx}]"
-	 	println "... ext.projectname=[${ext.projectname}]"
-	 	m['projectname']=xx;
+	 	println "... ext.projectname=[${ext.projectName}]"
+	 	m['projectName']=xx;
 	 	pn=xx;
 	 } // end of if
 	 else
@@ -41,20 +42,21 @@ ext.set = { fn ->
 
 // keep as sample copy of source files from 'templates/main' into 'ask' folder
 task ask(type: Copy) {
-	def s = classname;
+	def s = primaryClassName;
     from 'templates/main'
-    into  file("../src/main/ask${packagefolder}")
+    into  file("../src/main/ask${packageFolder}")
     include '*.scala'
     include '*.java' 
     include '*.groovy'
     exclude 'Skeleton.scala', 'Skeleton.java', 'Skeleton.groovy'
 
-    eachFile{ println "... all copied:"+it.sourceName; 
+    eachFile{ 
+    	println "... all copied:"+it.sourceName; 
     	def  i = it.name.indexOf('.'); 
     	s = it.name.substring(0,i)
 	    // Substitute property tokens in files: expand() within eachFile lets us make classname same as filename prefix
-		m['classname'] = s;
-		m['projectname']=pn;
+		m['primaryClassName'] = s;
+		m['projectName']=pn;
 	    expand(m)
     } // end of eachFile
     
@@ -65,18 +67,20 @@ task ask(type: Copy) {
 
 // task to copy any java test source that is not named SkeletonTest.java
 task getJavaTest(type: Copy) {
-	def s = classname;
+	def s = primaryClassName;
     from 'templates/test'
-    into  file("../src/test/java${packagefolder}")
+    into  file("../src/test/java${packageFolder}")
     include '*.java'
     exclude 'SkeletonTest.java'
 
-    eachFile{ println "... all java tests copied:"+it.sourceName; 
+    eachFile{ 
+    	println "... all java tests copied:"+it.sourceName; 
     	def  i = it.name.indexOf('.'); 
     	s = it.name.substring(0,i)
+	    
 	    // Substitute property tokens in files: expand() within eachFile lets us make classname same as filename prefix
-		m['classname'] = s;
-		m['projectname']=pn;
+		m['primaryClassName'] = s;
+		m['projectName']=pn;
 	    expand(m)
     } // end of eachFile
     
@@ -86,18 +90,20 @@ task getJavaTest(type: Copy) {
 
 // task to copy any scala test source that is not named SkeletonTest.scala
 task getScalaTest(type: Copy) {
-	def s = classname;
+	def s = primaryClassName;
     from 'templates/test'
-    into  file("../src/test/scala${packagefolder}")
+    into  file("../src/test/scala${packageFolder}")
     include '*.scala'
     exclude 'SkeletonTest.scala'
 
-    eachFile{ println "... all scala tests copied:"+it.sourceName; 
+    eachFile{ 
+    	println "... all scala tests copied:"+it.sourceName; 
     	def  i = it.name.indexOf('.'); 
     	s = it.name.substring(0,i)
+	    
 	    // Substitute property tokens in files: expand() within eachFile lets us make classname same as filename prefix
-		m['classname'] = s;
-		m['projectname']=pn;
+		m['primaryClassName'] = s;
+		m['projectName']=pn;
 	    expand(m)
     } // end of eachFile
     
@@ -107,18 +113,20 @@ task getScalaTest(type: Copy) {
 
 // task to copy any groovy test source that is not named SkeletonTest.groovy
 task getGroovyTest(type: Copy) {
-	def s = classname;
+	def s = primaryClassName;
     from 'templates/test'
-    into  file("../src/test/groovy${packagefolder}")
+    into  file("../src/test/groovy${packageFolder}")
     include '*.groovy'
     exclude 'SkeletonTest.groovy'
 
-    eachFile{ println "... all groovy tests copied:"+it.sourceName; 
+    eachFile{ 
+    	println "... all groovy tests copied:"+it.sourceName; 
     	def  i = it.name.indexOf('.'); 
     	s = it.name.substring(0,i)
+    	
 	    // Substitute property tokens in files: expand() within eachFile lets us make classname same as filename prefix
-		m['classname'] = s;
-		m['projectname']=pn;
+		m['primaryClassName'] = s;
+		m['projectName']=pn;
 	    expand(m)
     } // end of eachFile
     
@@ -129,18 +137,20 @@ task getGroovyTest(type: Copy) {
 
 // task to copy any groovy source that is not named Skeleton.groovy
 task getGroovy(type: Copy, dependsOn: getGroovyTest) {
-	def s = classname;
+	def s = primaryClassName;
     from 'templates/main'
-    into  file("../src/main/groovy${packagefolder}")
+    into  file("../src/main/groovy${packageFolder}")
     include '*.groovy'
     exclude 'Skeleton.groovy'
 
-    eachFile{ println "... all groovy copied:"+it.sourceName; 
+    eachFile{ 
+    	println "... all groovy copied:"+it.sourceName; 
     	def  i = it.name.indexOf('.'); 
     	s = it.name.substring(0,i)
+	    
 	    // Substitute property tokens in files: expand() within eachFile lets us make classname same as filename prefix
-		m['classname'] = s;
-		m['projectname']=pn;
+		m['primaryClassName'] = s;
+		m['projectName']=pn;
 	    expand(m)
     } // end of eachFile
     
@@ -150,18 +160,20 @@ task getGroovy(type: Copy, dependsOn: getGroovyTest) {
 
 // task to copy any scala source that is not named Skeleton.scala
 task getScala(type: Copy, dependsOn: getScalaTest) {
-	def s = classname;
+	def s = primaryClassName;
     from 'templates/main'
-    into  file("../src/main/scala${packagefolder}")
+    into  file("../src/main/scala${packageFolder}")
     include '*.scala'
     exclude 'Skeleton.scala'
 
-    eachFile{ println "... all scala copied:"+it.sourceName; 
+    eachFile{ 
+    	println "... all scala copied:"+it.sourceName; 
     	def  i = it.name.indexOf('.'); 
     	s = it.name.substring(0,i)
+	    
 	    // Substitute property tokens in files: expand() within eachFile lets us make classname same as filename prefix
-		m['classname'] = s;
-		m['projectname']=pn;
+		m['primaryClassName'] = s;
+		m['projectName']=pn;
 	    expand(m)
     } // end of eachFile
     
@@ -171,18 +183,20 @@ task getScala(type: Copy, dependsOn: getScalaTest) {
 
 // task to copy any java source that is not named Skeleton.java
 task getJava(type: Copy, dependsOn: getJavaTest) {
-	def s = classname;
+	def s = primaryClassName;
     from 'templates/main'
-    into  file("../src/main/java${packagefolder}")
+    into  file("../src/main/java${packageFolder}")
     include '*.java'
     exclude 'Skeleton.java'
 
-    eachFile{ println "... all java copied:"+it.sourceName; 
+    eachFile{ 
+    	println "... all java copied:"+it.sourceName; 
     	def  i = it.name.indexOf('.'); 
     	s = it.name.substring(0,i)
+	    
 	    // Substitute property tokens in files: expand() within eachFile lets us make classname same as filename prefix
-		m['classname'] = s;
-		m['projectname']=pn;
+		m['primaryClassName'] = s;
+		m['projectName']=pn;
 	    expand(m)
     } // end of eachFile
     

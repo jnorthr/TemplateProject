@@ -1,4 +1,4 @@
-${packagename}
+${packageName}
 
 /*
  * Copyright ${year} the original author ${author} or authors.
@@ -22,7 +22,7 @@ import org.junit.runner.notification.Failure;
 import static org.junit.Assert.*;
 import org.junit.*;
 
-public class ${classname}Test {
+public class ${primaryClassName}Test {
 
     // Run once, e.g. Database connection, connection pool
     @BeforeClass

@@ -1,4 +1,4 @@
-${packagename}
+${packageName}
 
 // To support Spock Test Framework - uncomment @Grab lines if compiling directly with groovyc and not gradle build tool
 //@Grab('org.spockframework:spock-core:1.1-groovy-2.4')
@@ -26,7 +26,7 @@ import org.springframework.boot.test.OutputCapture
 
 class PropertiesTest extends spock.lang.Specification {
     @Shared
-	alias = "${githubuser}"
+	alias = "${gitHubUser}"
 
     @Shared
 	author = "${author}"
@@ -35,19 +35,19 @@ class PropertiesTest extends spock.lang.Specification {
 	year = "${year}"
 
     @Shared
-	projectname = "${projectname}"
+	projectName = "${projectName}"
 
     @Shared
-	packagename = "${packagename}"
+	packageName = "${packageName}"
 
     @Shared
-	packagefolder = "${packagefolder}"
+	packageFolder = "${packageFolder}"
 
     @Shared
-	packageid = "${packageid}"
+	packagePrefix = "${packagePrefix}"
 
     @Shared
-	classname = "PropertiesTest"
+	primaryClassName = "${primaryClassName}"
 
     @Shared
 	email = "${email}"
@@ -84,17 +84,17 @@ class PropertiesTest extends spock.lang.Specification {
  
     // First Test
   	def "Build default PropertiesTest"() {
-  		when:     'default PropertiesTest has been built'
+  		when: 'default PropertiesTest has been built'
 
 		then:     
 			alias == "\${alias}"
 			author == "\${author}"
 			year == "\${year}"
-			projectname == "\${projectname}"
-			packagename == "\${packagename}"
-			packagefolder == "\${packagefolder}"
-			packageid == "\${packageid}"
-			classname == "\${classname}"
+			projectName == "\${projectName}"
+			packageName == "\${packageName}"
+			packageFolder == "\${packageFolder}"
+			packagePrefix == "\${packagePrefix}"
+			primaryClassName == "\${primaryClassName}"
 			email == "\${email}"
 			classes == "\${classes}"
   	} // end of feature method

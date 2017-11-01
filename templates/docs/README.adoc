@@ -1,4 +1,4 @@
-= https://github.com/${githubuser}/${projectname}/blob/master/README.md[${projectname} Project README.md]
+= https://github.com/${gitHubUser}/${projectName}/blob/master/README.md[${projectName} Project README.md]
 ${author} <${email}>
 :toc: right
 :icons: font
@@ -21,7 +21,7 @@ TIP: [red]*${projectName}* *README*
 
 == Home Page of ${projectName} Project
 
-=== ${className} Class Documentation
+=== ${primaryClassName} Class Documentation
 
 ''''
 

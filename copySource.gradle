@@ -13,7 +13,7 @@ defaultTasks 'groovy', 'java', 'scala'
 Map m = [gitHubUser:gitHubUser,author:author,email:email,year:year,projectRoot:projectRoot,projectName:projectName,projectLocation:projectLocation,packageFolder:packageFolder,packageName:packageName,packagePrefix:packagePrefix,primaryClassName:primaryClassName,classes:classes]
 
 ext.say = { fn ->
- 	 String xx = "run${fn}"
+ 	 String xx = "run${primaryClassName}"
 	 def fi = file("${projectDir}/../build.gradle")
 	 int j = fi.text.indexOf(xx);
 	 
@@ -23,8 +23,8 @@ ext.say = { fn ->
 	    fi.append("""
 
 // runs the class main() method; args are ignored but maybe later ?
-task(run${fn}, dependsOn: 'classes', type: JavaExec) {
-		main = "${packageid}${fn}"
+task(run${primaryClassName}, dependsOn: 'classes', type: JavaExec) {
+		main = "${packagePrefix}${primaryClassName}"
 		classpath = sourceSets.main.runtimeClasspath
 		args 'jimbo', 'hi kids'
 		systemProperty 'simple.message', 'Hi kids '
@@ -39,16 +39,16 @@ task(run${fn}, dependsOn: 'classes', type: JavaExec) {
 
 task groovycopy(type: Copy) {
     from 'templates/main'
-    into  file("../src/main/groovy${packagefolder}")
+    into  file("../src/main/groovy${packageFolder}")
     include 'Skeleton.groovy'
 
     // Substitute property tokens in files
     expand(m)
 
-    rename { it = classname + '.groovy' }
+    rename { it = primaryClassName + '.groovy' }
     outputs.upToDateWhen { false }
     doLast {
-        say(classname) 
+        say(primaryClassName) 
     }
 
 } // end of task
@@ -56,15 +56,15 @@ task groovycopy(type: Copy) {
 // this just creates the 'Test' versions while the groovycopy task above actually copies the *.groovy from the 'main' folder
 task groovy(type: Copy,dependsOn: groovycopy) {
     from 'templates/test'
-    into  file("../src/test/groovy${packagefolder}")
+    into  file("../src/test/groovy${packageFolder}")
     include 'SkeletonTest.groovy'
 
     // Substitute property tokens in files
     expand(m)
 
-    rename { it = classname + 'Test.groovy' }
+    rename { it = primaryClassName + 'Test.groovy' }
     doLast {
-        say(classname) 
+        say(primaryClassName) 
     }
     
     outputs.upToDateWhen { false }
@@ -73,7 +73,7 @@ task groovy(type: Copy,dependsOn: groovycopy) {
 
 task testGradleProperties (type: Copy) {
     from 'templates/test'
-    into  file("../src/test/groovy${packagefolder}")
+    into  file("../src/test/groovy${packageFolder}")
     include 'PropertiesTest.groovy'
     
     // Substitute property tokens in files
@@ -85,16 +85,16 @@ task testGradleProperties (type: Copy) {
 // Java anyone ?
 task javacopy(type: Copy) {
     from 'templates/main'
-    into  file("../src/main/java${packagefolder}")
+    into  file("../src/main/java${packageFolder}")
     include 'Skeleton.java'
     
     // Substitute property tokens in files
     expand(m)
     
-    rename { it = classname + '.java' }
+    rename { it = primaryClassName + '.java' }
     outputs.upToDateWhen { false }
     doLast {
-        say(classname) 
+        say(primaryClassName) 
     }
 
 } // end of task
@@ -103,16 +103,16 @@ task javacopy(type: Copy) {
 // funny tasks name but looks nice for command line user b/c it calls javacopy task to make java source & dirs
 task java(type: Copy,dependsOn: javacopy) {
     from 'templates/test'
-    into  file("../src/test/java${packagefolder}")
+    into  file("../src/test/java${packageFolder}")
     include 'SkeletonTest.java'
 
     // Substitute property tokens in files
     expand(m)
     
-    rename { it = classname + 'Test.java' }
+    rename { it = primaryClassName + 'Test.java' }
     outputs.upToDateWhen { false }
     doLast {
-        say(classname) 
+        say(primaryClassName) 
     }
 
 } // end of task
@@ -122,16 +122,16 @@ task java(type: Copy,dependsOn: javacopy) {
 // Scala anyone ?
 task scalacopy(type: Copy) {
     from 'templates/main'
-    into  file("../src/main/scala${packagefolder}")
+    into  file("../src/main/scala${packageFolder}")
     include 'Skeleton.scala'
     
     // Substitute property tokens in files
     expand(m)
 
-    rename { it = classname + '.scala' }
+    rename { it = primaryClassName + '.scala' }
     outputs.upToDateWhen { false }    
     doLast {
-        say(classname) 
+        say(primaryClassName) 
     }
 
 } // end of task
@@ -140,16 +140,16 @@ task scalacopy(type: Copy) {
 // funny tasks name but looks nice for command line user b/c it calls scalacopy task to make scala source & dirs
 task scala(type: Copy,dependsOn: scalacopy) {
     from 'templates/test'
-    into  file("../src/test/scala${packagefolder}")
+    into  file("../src/test/scala${packageFolder}")
     include 'SkeletonTest.scala'
 
     // Substitute property tokens in files
     expand(m)
     
-    rename { it = classname + 'Test.scala' }
+    rename { it = primaryClassName + 'Test.scala' }
     outputs.upToDateWhen { false }
     doLast {
-        say(classname) 
+        say(primaryClassName) 
     }
 
 } // end of task

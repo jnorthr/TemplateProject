@@ -1,4 +1,4 @@
-${packagename}
+${packageName}
 
 import groovy.transform.*;
 
@@ -19,7 +19,7 @@ import groovy.transform.*;
  */
 
 /** 
- * ${classname} class description
+ * ${primaryClassName} class description
  *
  * This is code with all bits needed to do a project
 
@@ -86,7 +86,7 @@ java.io.File.separator=\${java.io.File.separator}
     */     
     public static void main(String[] args)
     {
-        println "--- starting ${classname} ---"
+        println "--- starting ${primaryClassName} ---"
 
         Hammer obj = new Hammer();
         

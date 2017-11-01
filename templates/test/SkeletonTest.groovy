@@ -1,4 +1,4 @@
-${packagename}
+${packageName}
 
 // To support Spock Test Framework - uncomment @Grab lines if compiling directly with groovyc and not gradle build tool
 //@Grab('org.spockframework:spock-core:1.1-groovy-2.4')
@@ -61,9 +61,9 @@ See: http://mrhaki.blogspot.fr/2015/02/spocklight-capture-and-assert-system.html
 
 */
 
-class ${classname}Test extends spock.lang.Specification {
+class ${primaryClassName}Test extends spock.lang.Specification {
     @Shared
-    ${classname} test;
+    ${primaryClassName} test;
 
 	@org.junit.Rule
 	OutputCapture capture = new OutputCapture()
@@ -76,7 +76,7 @@ class ${classname}Test extends spock.lang.Specification {
 	// run before every feature method
 	def setup() 
 	{
-		test = new ${classname}();
+		test = new ${primaryClassName}();
 	}          
 
 	// run after every feature method
@@ -88,21 +88,21 @@ class ${classname}Test extends spock.lang.Specification {
 	// run after the last feature method	
 	def cleanupSpec() 
 	{
-		println "end of testing for ${classname}"
+		println "end of testing for ${primaryClassName}"
 	}   
  
  
     // First Test
-  	def "Build default ${classname}"() {
-  		when:     'default ${classname} has been built'
+  	def "Build default ${primaryClassName}"() {
+  		when:     'default ${primaryClassName} has been built'
 		then:     test != null;
   	} // end of feature method
 
 
     // 2nd Test
-    def "Setup ${classname} to save a file"() { 
+    def "Setup ${primaryClassName} to save a file"() { 
     	setup: 
-  			${classname} ch= new ${classname}();
+  			${primaryClassName} ch= new ${primaryClassName}();
     	when:
 			def txt = ch.toString();
  			println txt;

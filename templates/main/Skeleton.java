@@ -1,4 +1,4 @@
-${packagename}
+${packageName}
 
 import groovy.transform.*;
 
@@ -19,14 +19,14 @@ import groovy.transform.*;
  */
 
 /** 
- * ${classname} class description
+ * ${primaryClassName} class description
  *
  * This is code with all bits needed to do a project
 
  *
  */ 
  @Canonical 
- public class ${classname}
+ public class ${primaryClassName}
  {
     /** an O/S specific char. as a file path divider */
     String fs = java.io.File.separator;
@@ -38,16 +38,15 @@ import groovy.transform.*;
    /** 
     * Variable name of current class.
     */  
-    String classname = "${classname}";
+    String classname = "${primaryClassName}";
 
 
    /** 
     * Default Constructor 
-    * 
     */     
-    public ${classname}()
+    public ${primaryClassName}()
     {
-        classname = "running ${classname} constructor";
+        println "running ${primaryClassName} constructor";
     } // end of constructor
 
 
@@ -81,12 +80,12 @@ import groovy.transform.*;
     */     
     public static void main(String[] args)
     {
-        System.out.println("--- starting ${classname} ---");
+        System.out.println("--- starting ${primaryClassName} ---");
 
-        ${classname} obj = new ${classname}();
+        ${primaryClassName} obj = new ${primaryClassName}();
         
-        System.out.println("${classname} = ["+obj.toString()+"]");
-        System.out.println("--- the end of ${classname} ---");
+        System.out.println("${primaryClassName} = ["+obj.toString()+"]");
+        System.out.println("--- the end of ${primaryClassName} ---");
     } // end of main
 
 } // end of class

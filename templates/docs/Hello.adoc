@@ -1,5 +1,5 @@
 = http://mrhaki.blogspot.com/2010/10/gradle-goodness-copy-files-with.html[Ant Filters in Gradle]
-jimbo <jnorthr@orange.fr>
+${author} <${email}>
 :toc: right
 :icons: font
 :description: Sample document using ant replacement filters.
@@ -27,4 +27,4 @@ IMPORTANT: Asciidoctor is awesome, don't forget!
 
 This is just a simple text file. This line will not make it.
 We show filtering capabilities of Gradle copy.
-This file is written by {author} with Gradle version ${gradleVersion}.
+This file is written by ${author} with Gradle version ${gradleVersion}.

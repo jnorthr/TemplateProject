@@ -20,8 +20,8 @@ ext.say = { fn ->
 	    fi.append("""
 
 // runs the class main() method; args are ignored but maybe later ?
-task(run${fn}, dependsOn: 'classes', type: JavaExec) {
-		main = "${packageid}${fn}"
+task(run${primaryClassName}, dependsOn: 'classes', type: JavaExec) {
+		main = "${packagePrefix}${primaryClassName}"
 		classpath = sourceSets.main.runtimeClasspath
 		args 'jimbo', 'hi kids'
 		systemProperty 'simple.message', 'Hi kids '
@@ -36,18 +36,19 @@ task(run${fn}, dependsOn: 'classes', type: JavaExec) {
 // here we copy all groovy test source except our own Skeleton.groovy we use internally
 // so just name your class like HammerTest.groovy then, if needed, use groovy GString template placeholders like ${date} within your source
 task groovytest(type: Copy) {
-	def s = classname;
+	def s = primaryClassName;
     from 'templates/test'
-    into  file("../src/test/groovy${packagefolder}")
+    into  file("../src/test/groovy${packageFolder}")
     include '*.groovy'
     exclude 'SkeletonTest.groovy'
     
-    eachFile { println "... groovy all tests copied:"+it.name;
+    eachFile { 
+    	println "... groovy all tests copied:"+it.name;
     	def  i = it.name.indexOf('.'); 
     	s = it.name.substring(0,i)
     	
 	    // Substitute property tokens in files: expand() within eachFile lets us make classname same as filename prefix
-		m['classname'] = s;
+		m['primaryClassName'] = s;
 	    expand(m)
     }
     
@@ -58,19 +59,21 @@ task groovytest(type: Copy) {
 // here we copy all groovy source except our own Skeleton.groovy we use internally
 // so just name your class like Hammer.groovy then, if needed, use groovy GString template placeholders like ${date} within your source
 task groovy(type: Copy, dependsOn: groovytest) {
-	def s = classname;
+	def s = primaryClassName;
     from 'templates/main'
-    into  file("../src/main/groovy${packagefolder}")
+    into  file("../src/main/groovy${packageFolder}")
     include '*.groovy'
     exclude 'Skeleton.groovy'
     
-    eachFile { println "... groovy all copied:"+it.name;
+    eachFile { 
+    	println "... groovy all copied:"+it.name;
     	def  i = it.name.indexOf('.'); 
     	s = it.name.substring(0,i)
 	    // Substitute property tokens in files: expand() within eachFile lets us make classname same as filename prefix
-		m['classname'] = s;
+		m['primaryClassName'] = s;
 	    expand(m)
-    }
+    } // end of each
+    	
     doLast {
         say(s) 
     }
@@ -84,17 +87,18 @@ task groovy(type: Copy, dependsOn: groovytest) {
 // here we copy all java test source except our own SkeletonTest.java we use internally
 // so just name your class like CheeseTest.java then, if needed, use groovy GString template placeholders like ${date} within your source
 task javatest(type: Copy) {
-	def s = classname;
+	def s = primaryClassName;
     from 'templates/test'
-    into  file("../src/test/groovy${packagefolder}")
+    into  file("../src/test/groovy${packageFolder}")
     include '*.java'
     exclude 'SkeletonTest.java'
     
-    eachFile { println "... java all test copied:"+it.name;
+    eachFile { 
+    	println "... java all test copied:"+it.name;
     	def  i = it.name.indexOf('.'); 
     	s = it.name.substring(0,i)
 	    // Substitute property tokens in files: expand() within eachFile lets us make classname same as filename prefix
-		m['classname'] = s;
+		m['primaryClassName'] = s;
 	    expand(m)
     }
     
@@ -107,18 +111,19 @@ task javatest(type: Copy) {
 // here we copy all java source except our own Skeleton.java we use internally
 // so just name your class like Cheese.java then, if needed, use groovy GString template placeholders like ${date} within your source
 task java(type: Copy,dependsOn: javatest) {
-	def s = classname;
+	def s = primaryClassName;
     from 'templates/main'
-    into  file("../src/main/java${packagefolder}")
+    into  file("../src/main/java${packageFolder}")
     include '*.java'
     exclude 'Skeleton.java'
     
-    eachFile { println "... java all copied:"+it.name;
+    eachFile { 
+    	println "... java all copied:"+it.name;
     	def  i = it.name.indexOf('.'); 
     	s = it.name.substring(0,i)
 
 	    // Substitute property tokens in files: expand() within eachFile lets us make classname same as filename prefix
-		m['classname'] = s;
+		m['primaryClassName'] = s;
 	    expand(m)
     }
     doLast {
@@ -134,17 +139,18 @@ task java(type: Copy,dependsOn: javatest) {
 // here we copy all scala test source except our own SkeletonTest.scala we use internally
 // so just name your class like NailTest.scala then, if needed, use groovy GString template placeholders like ${date} within your source
 task scalatest(type: Copy) {
-	def s = classname;
+	def s = primaryClassName;
     from 'templates/test'
-    into  file("../src/test/scala${packagefolder}")
+    into  file("../src/test/scala${packageFolder}")
     include '*.scala'
     exclude 'SkeletonTest.scala'
     
-    eachFile { println "... scala all test copied:"+it.name; 
+    eachFile { 
+    	println "... scala all test copied:"+it.name; 
     	def  i = it.name.indexOf('.'); 
     	s = it.name.substring(0,i)
 	    // Substitute property tokens in files: expand() within eachFile lets us make classname same as filename prefix
-		m['classname'] = s;
+		m['primaryClassName'] = s;
 	    expand(m)
     }
     
@@ -155,17 +161,19 @@ task scalatest(type: Copy) {
 // here we copy all scala source except our own Skeleton.scala we use internally
 // so just name your class like Nail.scala then, if needed, use groovy GString template placeholders like ${date} within your source
 task scala(type: Copy,dependsOn: scalatest) {
-	def s = classname;
+	def s = primaryClassName;
     from 'templates/main'
-    into  file("../src/main/scala${packagefolder}")
+    into  file("../src/main/scala${packageFolder}")
     include '*.scala'
     exclude 'Skeleton.scala'
     
-    eachFile{ println "... scala all copied:"+it.sourceName; 
+    eachFile{ 
+    	println "... scala all copied:"+it.sourceName; 
     	def  i = it.name.indexOf('.'); 
     	s = it.name.substring(0,i)
+	    
 	    // Substitute property tokens in files: expand() within eachFile lets us make classname same as filename prefix
-		m['classname'] = s;
+		m['primaryClassName'] = s;
 	    expand(m)
     }
     doLast {

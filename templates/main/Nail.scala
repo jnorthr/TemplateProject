@@ -1,4 +1,4 @@
-${packagename}
+${packageName}
 
 /*
  * Copyright ${year} the original author or authors.
@@ -16,9 +16,9 @@ ${packagename}
  * limitations under the License.
  */
 
-object ${classname} {
+object ${primaryClassName} {
   def main(args: Array[String]) {
-    println("Hello, ${classname} of the ${projectname} project!")
+    println("Hello, ${primaryClassName} of the ${projectName} project!")
   }
 }
 

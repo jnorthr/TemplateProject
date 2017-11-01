@@ -1,0 +1,43 @@
+// placeholder replacement Map
+class Config {
+    String name
+}
+  // Sets a project property, available everywhere
+def config = new Config()
+
+//Map m = [gitHubUser:gitHubUser,author:author,email:email,year:year,projectRoot:projectRoot,projectName:projectName,projectLocation:projectLocation,packageFolder:packageFolder,packageName:packageName,packagePrefix:packagePrefix,primaryClassName:primaryClassName,classes:classes]
+ext.m = [:]
+
+task (readConf){
+    config.name = "foo"
+}
+
+// File: test.gradle
+task (resolveProperties,dependsOn: [readConf]).doFirst{
+	println "resolveProperties is $config.name"
+    //println "hasProperty(author) -> ${project.hasProperty('author') ? project.property('author') : 'default author value for hasProperty()'}"
+    //println "findProperty(author) -> ${project.findProperty('author') ?: 'default author value for findProperty'}"
+
+    //println "hasProperty(email) -> ${project.hasProperty('email') ? project.property('email') : 'default email value for hasProperty()'}"
+    //println "findProperty(email) -> ${project.findProperty('email') ?: 'default email value for findProperty'}"
+
+	//String txt = project.hasProperty('author') ? project.property('author') : 'default author value for hasProperty()';
+	//println "... txt="+txt;
+
+	m['gitHubUser']=project.hasProperty('gitHubUser') ? project.property('gitHubUser') : 'Whats my github name?';	
+	m['author']=project.findProperty('author') ?: 'Who did this?';
+	m['email']=project.findProperty('email') ?: 'men@work.com';
+	m['year']=project.findProperty('year') ?: '2018';
+	m['projectRoot']=project.findProperty('projectRoot') ?: '/Users/jim/Dropbox/Projects';
+	m['projectName']=project.findProperty('projectName') ?: 'Tools';
+	m['projectLocation']=project.findProperty('projectLocation') ?: '/Users/jim/Dropbox/Projects/Tools';
+	m['packageFolder']=project.findProperty('packageFolder') ?: '/com/jim/toolkit';
+	m['packageName']=project.findProperty('packageName') ?: 'package com.jim.toolkit;';
+	m['packagePrefix']=project.findProperty('packagePrefix') ?: 'com.jim.toolkit.';
+	m['primaryClassName']=project.findProperty('primaryClassName') ?: 'Hammer';
+	m['classes']=project.findProperty('classes') ?: '';
+	//m['']=project.findProperty('') ?: '';
+	
+	println "... list m="
+	m.each{k,v-> println "k=[${k}] v=[${v}]"}
+} // end of task

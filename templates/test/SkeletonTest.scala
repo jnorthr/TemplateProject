@@ -1,4 +1,4 @@
-${packagename}
+${packageName}
 
 /*
  * Copyright ${year} the original author ${author} or authors.
@@ -19,7 +19,7 @@ ${packagename}
 import collection.mutable.Stack
 import org.scalatest._
 
-class ${classname}Spec extends FlatSpec with Matchers {
+class ${primaryClassName}Spec extends FlatSpec with Matchers {
 
   "A Stack" should "pop values in last-in-first-out order" in {
     val stack = Stack[String]()

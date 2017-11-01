@@ -1,4 +1,4 @@
-${packagename}
+${packageName}
 
 import groovy.transform.*;
 
@@ -19,14 +19,14 @@ import groovy.transform.*;
  */
 
 /** 
- * ${classname} class description
+ * ${primaryClassName} class description
  *
  * This is code with all bits needed to do a project
 
  *
  */ 
  @Canonical 
- public class ${classname}
+ public class ${primaryClassName}
  {
     /** an O/S specific char. as a file path divider */
     String fs = java.io.File.separator;
@@ -38,17 +38,17 @@ import groovy.transform.*;
    /** 
     * Variable name of current class.
     */  
-    String classname = "${classname}";
+    String classname = "${primaryClassName}";
 
 
    /** 
     * Default Constructor 
     * 
-    * @return ${classname} object
+    * @return ${primaryClassName} object
     */     
-    public ${classname}()
+    public ${primaryClassName}()
     {
-        classname = "running ${classname} constructor"
+        println "running ${primaryClassName} constructor"
     } // end of constructor
 
 
@@ -59,7 +59,7 @@ import groovy.transform.*;
     */     
     public String toString()
     {
-        return """classname=\${classname}
+        return """classname=\${primaryClassName}
 user.home=\${home}
 java.io.File.separator=\${java.io.File.separator}
 """
@@ -77,11 +77,6 @@ java.io.File.separator=\${java.io.File.separator}
     }  // end of method
 
 
-
-
-
-
-
    // ======================================
    /** 
     * Method to run class tests.
@@ -91,12 +86,12 @@ java.io.File.separator=\${java.io.File.separator}
     */     
     public static void main(String[] args)
     {
-        println "--- starting ${classname} ---"
+        println "--- starting ${primaryClassName} ---"
 
-        ${classname} obj = new ${classname}();
+        ${primaryClassName} obj = new ${primaryClassName}();
         
-        println "${classname} = [\${obj.toString()}]"
-        println "--- the end of ${classname} ---"
+        println "${primaryClassName} = [\${obj.toString()}]"
+        println "--- the end of ${primaryClassName} ---"
     } // end of main
 
 } // end of class
