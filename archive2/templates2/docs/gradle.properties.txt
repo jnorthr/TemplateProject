@@ -1,0 +1,11 @@
+org.gradle.daemon=true
+org.gradle.parallel=true
+githubuser=jnorthr
+year=2017
+author=Jim Northrop
+projectname=ClientManagement
+packagename=package com.toolkit.tools;
+packagefolder=/com/toolkit/tools
+packageid=com.toolkit.tools.
+classname=Client
+email=men@work.com

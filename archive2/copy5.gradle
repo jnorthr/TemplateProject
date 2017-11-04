@@ -1,0 +1,36 @@
+// http://mrhaki.blogspot.com/2010/10/gradle-goodness-copy-files-with.html
+defaultTasks 'groovy5'
+
+task groovy5(type: Copy) {
+    from 'main'
+    into  file("../src/main/groovy${packagefolder}")
+    include 'Skeleton.groovy'
+    // Substitute property tokens in files
+    expand([year: year, classname: classname, packagename:packagename, author:author])
+    //rename { it = classname + '.groovy' }
+    outputs.upToDateWhen { false }
+} // end of task
+
+
+/* from gradle.properties
+alias =jnorthr
+author =Jim Northrop
+year =2017
+projectname=Toolkit
+packagename =package com.jim.toolkit;
+packagefolder=/com/jim/toolkit
+packageid=com.jim.toolkit.
+classname=Tools
+*/
+
+
+task test5(type: Copy) {
+    from 'test'
+    into  file("../src/test/groovy${packagefolder}")
+    include 'PropertiesTest.groovy'
+    
+    // Substitute property tokens in files
+    expand([year: year, alias:alias, classname: classname, packagename:packagename, 
+    projectname:projectname, packagefolder:packagefolder, packageid:packageid, author:author])
+    outputs.upToDateWhen { false }
+} // end of task

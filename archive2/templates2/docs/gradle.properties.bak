@@ -1,0 +1,11 @@
+org.gradle.daemon=true
+org.gradle.parallel=true
+githubuser =jnorthr
+author =Jim Northrop
+year =2017
+projectname=Toolkit
+packagename =package com.jim.toolkit.tools;
+packagefolder=/com/jim/toolkit/tools
+packageid=com.jim.toolkit.tools.
+classname=Tools
+email=men@work.com

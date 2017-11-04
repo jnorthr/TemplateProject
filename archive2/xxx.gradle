@@ -1,0 +1,15 @@
+// See: http://andresalmiray.com/newsletter/issue001/  expalins about project properties
+// 1. value of cn in local gradle.properties is Saw  like: foo = local or cn = Saw  quotes not needed
+// 2. if cn is found in ~/.gradle/gradle.properties then it is used
+// 3. if commandline option -Pcn=Wrench that overrides 1 & 2
+// 4. but when this script has ext.cn = 'Screws' it overrides 1,2,3
+// ext.cn = 'Screws' prints Screws
+// cn = 'Screws' also treated as project.ext property so prints Screws
+// def cn = 'Screws' also treated as script variable property so prints Screws
+// but comment out the above and gradle -b xxx.gradle -Pcn=Hammer  will print Hammer
+
+println '--- starting ---'
+println cn
+
+//ext.foo = 'build'
+//println foo

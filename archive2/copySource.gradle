@@ -1,0 +1,156 @@
+// http://mrhaki.blogspot.com/2010/10/gradle-goodness-copy-files-with.html
+
+// uses imported ant filter classes in each task to replace placeholders in source documents
+//import org.apache.tools.ant.filters.*
+
+defaultTasks 'testGradleProperties', 'groovy', 'java', 'scala'
+
+// placeholder replacement Map
+Map m = [year: year, classname: classname, packagename:packagename, githubuser:githubuser, projectname:projectname, packagefolder:packagefolder, packageid:packageid, author:author]
+
+/*
+	A Method to update the build.gradle file of the root project with a run task for a newly created class
+    Define methods b4 use; use 'ext' project scope so method seen everywhere;
+*/
+ext.say = { fn ->
+ 	 String xx = "run${fn}"
+	 def fi = file("${projectDir}/../build.gradle")
+	 int j = fi.text.indexOf(xx);
+	 
+	 if (j < 1)
+	 {
+	 	println "... updating build.gradle to include run"+fn;
+	    fi.append("""
+
+// runs the class main() method; args are ignored but maybe later ?
+task(run${fn}, dependsOn: 'classes', type: JavaExec) {
+		main = "${packageid}${fn}"
+		classpath = sourceSets.main.runtimeClasspath
+		args 'jimbo', 'hi kids'
+		systemProperty 'simple.message', 'Hi kids '
+}
+
+""");
+	  } // end of if
+	  
+} // end of method
+
+//------------------------------------------------------
+
+task groovycopy(type: Copy) {
+    from 'templates/main'
+    into  file("../src/main/groovy${packagefolder}")
+    include 'Skeleton.groovy'
+
+    // Substitute property tokens in files
+    expand(m)
+
+    rename { it = classname + '.groovy' }
+    outputs.upToDateWhen { false }
+    doLast {
+        say(classname) 
+    }
+
+} // end of task
+
+// this just creates the 'Test' versions while the groovycopy task above actually copies the *.groovy from the 'main' folder
+task groovy(type: Copy,dependsOn: groovycopy) {
+    from 'templates/test'
+    into  file("../src/test/groovy${packagefolder}")
+    include '*.groovy'
+
+    // Substitute property tokens in files
+    expand(m)
+
+    rename { it = classname + 'Test.groovy' }
+    doLast {
+        say(classname) 
+    }
+    
+    outputs.upToDateWhen { false }
+} // end of task
+
+
+task testGradleProperties (type: Copy) {
+    from 'templates/test'
+    into  file("../src/test/groovy${packagefolder}")
+    include 'PropertiesTest.groovy'
+    
+    // Substitute property tokens in files
+    expand(m)
+} // end of task
+
+
+// ==============================================
+// Java anyone ?
+task javacopy(type: Copy) {
+    from 'templates/main'
+    into  file("../src/main/java${packagefolder}")
+    include '*.java'
+    
+    // Substitute property tokens in files
+    expand(m)
+    
+    rename { it = classname + '.java' }
+    outputs.upToDateWhen { false }
+    doLast {
+        say(classname) 
+    }
+
+} // end of task
+
+
+// funny tasks name but looks nice for command line user b/c it calls javacopy task to make java source & dirs
+task java(type: Copy,dependsOn: javacopy) {
+    from 'templates/test'
+    into  file("../src/test/java${packagefolder}")
+    include '*.java'
+
+    // Substitute property tokens in files
+    expand(m)
+    
+    rename { it = classname + 'Test.java' }
+    outputs.upToDateWhen { false }
+    doLast {
+        say(classname) 
+    }
+
+} // end of task
+
+
+// ==============================================
+// Scala anyone ?
+task scalacopy(type: Copy) {
+    from 'templates/main'
+    into  file("../src/main/scala${packagefolder}")
+    include '*.scala'
+    
+    // Substitute property tokens in files
+    expand(m)
+
+    rename { it = classname + '.scala' }
+    outputs.upToDateWhen { false }    
+    doLast {
+        say(classname) 
+    }
+
+} // end of task
+
+
+// funny tasks name but looks nice for command line user b/c it calls scalacopy task to make scala source & dirs
+task scala(type: Copy,dependsOn: scalacopy) {
+    from 'templates/test'
+    into  file("../src/test/scala${packagefolder}")
+    include '*.scala'
+
+    // Substitute property tokens in files
+    expand(m)
+    
+    rename { it = classname + 'Test.scala' }
+    outputs.upToDateWhen { false }
+    doLast {
+        say(classname) 
+    }
+
+} // end of task
+

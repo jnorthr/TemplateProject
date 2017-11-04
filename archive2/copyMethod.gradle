@@ -1,0 +1,71 @@
+
+// placeholder replacement Map
+Map m = [year: year, classname: classname, packagename:packagename, githubuser:githubuser, projectname:projectname, packagefolder:packagefolder, packageid:packageid, author:author]
+
+/*
+	A Method to update the build.gradle file of the root project with a run task for a newly created class
+    Define methods b4 use; use 'ext' project scope so method seen everywhere;
+*/
+String pn=ext.projectname
+
+ext.set = { fn ->
+	 String fs = java.io.File.separator;
+
+ 	 String xx = "${projectDir}"
+	 int j = xx.lastIndexOf(fs);	 	  
+	 if (j>0) {xx=xx.substring(j+1)}
+	 println "... the project folder was found at [${projectDir}] and ${fs} was at ${j} with final token of [${xx}]";
+	 if (xx=="TemplateProject")
+	 {
+	 	xx = "${projectDir}"
+	 	xx = xx.substring(0,j)
+	 	println "... within our folder so move up one level to [${xx}]";
+	 	j = xx.lastIndexOf(fs);
+	 	xx=xx.substring(j+1)
+	 	projectname=xx;
+	 	println "... root folder name of our project is [${xx}]"
+	 	println "... ext.projectname=[${ext.projectname}]"
+	 	m['projectname']=xx;
+	 	pn=xx;
+	 } // end of if
+
+} // end of method
+
+task ask(type: Copy) {
+	def s = classname;
+    from 'templates/main'
+    into  file("../src/main/scala${packagefolder}")
+    include '*.scala'
+    exclude 'Skeleton.scala'
+    eachFile{ println "... scala all copied:"+it.sourceName; 
+    	def  i = it.name.indexOf('.'); 
+    	s = it.name.substring(0,i)
+	    // Substitute property tokens in files: expand() within eachFile lets us make classname same as filename prefix
+		m['classname'] = s;
+		m['projectname']=pn;
+	    expand(m)
+    } // end of eachFile
+    
+    outputs.upToDateWhen { false }
+} // end of task
+
+
+task setup(type:Exec) {
+  workingDir projectDir
+
+  //on linux
+  commandLine 'pwd'
+
+  //store the output instead of printing to the console:
+  standardOutput = new ByteArrayOutputStream()
+
+  //extension method stopTomcat.output() can be used to obtain the output:
+  ext.output = {
+    return standardOutput.toString()
+  }
+  
+  doLast {
+  	set(projectDir) 
+  }
+
+} // end of task

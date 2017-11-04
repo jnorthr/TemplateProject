@@ -1,0 +1,46 @@
+// http://mrhaki.blogspot.com/2010/10/gradle-goodness-copy-files-with.html
+// Plugin so we can render AsciiDoctor documents.
+apply plugin: 'org.asciidoctor.gradle.asciidoctor'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+ 
+    dependencies {
+        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
+    }
+}
+
+project.ext {
+	gradleVersion = '4.0'
+} 
+
+// placeholder replacement Map
+Map m = [year: year, classname: classname, packagename:packagename, githubuser:githubuser, projectname:projectname, 
+packagefolder:packagefolder, packageid:packageid, author:author,date: new Date(), gradleVersion : ext.gradleVersion, ]
+
+ 
+// do thee tasks if no command line choices are given
+defaultTasks 'filterCopy', 'asciidoctor'
+
+// copy all asciidoctor-styled text files from 'templates' & rename as asciidoctor .adoc text files
+task('filterCopy', type: Copy) {
+    from 'templates/docs'
+    into file('../src/docs/asciidoc')
+    include '**/*.adoc'
+
+    // Substitute ${xxx} placeholder tokens in files
+    expand(m)
+} // end of task
+
+
+// closure to influence asciidoctor behaviour
+asciidoctor {
+    // We can change the AsciidoctorJ dependency version.
+    version = '1.5.3'
+    separateOutputDirs=false
+    outputDir = new File("../src/docs/asciidoc")
+    sourceDir=file('../src/docs/asciidoc')
+    backends('html5')
+}

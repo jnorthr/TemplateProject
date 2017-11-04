@@ -1,0 +1,69 @@
+// expand() uses groovy GString ${} template placeholders declarations for replacements within included files
+
+buildscript {
+    dependencies {
+        classpath files('./build/libs/TemplateProject.jar')
+    }
+}
+
+import com.jim.toolkit.tools.ProjectProperties;
+
+defaultTasks 'setup', 'copy', 'resources'
+
+// placeholder replacement 
+Map m = [year: year, classname: classname, packagename:packagename, githubuser:githubuser, projectname:projectname, 
+packagefolder:packagefolder, packageid:packageid, author:author]
+
+
+ext.set = { fn ->
+        ProjectProperties obj = new ProjectProperties();
+        m = obj.toMap()
+} // end of method
+
+
+task setup(type:Exec) {
+  workingDir projectDir
+
+  //on linux
+  commandLine 'pwd'
+
+  //store the output instead of printing to the console:
+  standardOutput = new ByteArrayOutputStream()
+
+  //extension method stopTomcat.output() can be used to obtain the output:
+  ext.output = {
+    return standardOutput.toString()
+  }
+  
+  doLast {
+  	set(projectDir) 
+  }
+
+} // end of task
+
+
+task copy(type: Copy) {
+  from file('./templates/docs') 
+  
+  include '**/*.txt'
+  into file("${projectDir}/..")
+
+  // turn off Ant suppression of files to copy
+  org.apache.tools.ant.DirectoryScanner.removeDefaultExclude("**/.gitignore")
+  org.apache.tools.ant.DirectoryScanner.removeDefaultExclude("**/.travis.yml")
+
+  // Substitute property tokens in files
+  expand(m)
+  rename { it - '.txt' }
+
+} // end task
+
+
+// now take properties from folders
+task ('resources', type: Copy) {
+  from file('./templates/resources') 
+  include '*.properties'
+  into file('../src/main/resources')
+}
+
+

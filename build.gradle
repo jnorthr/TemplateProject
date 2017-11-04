@@ -10,7 +10,7 @@ apply plugin: 'groovy'
 
 Map m = [:]
 
-defaultTasks 'resolveProperties', 'clean', 'build', 'runDialog', 'core', 'docs', 'all', 'one', 'single', 'wrapper'
+defaultTasks 'resolveProperties', 'clean', 'build', 'groovydoc','javadoc','runDialog', 'core', 'docs', 'all', 'one', 'single', 'wrapper'
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -109,4 +109,12 @@ task wrapper(type: Wrapper) {
     jarFile = "${projectDir.getParent()}/gradle/wrapper/gradle-wrapper.jar"
     scriptFile = "${projectDir.getParent()}/gradlew"
 } // end of task
+
+jar {
+    manifest {
+        attributes 'Main-Class': "com.jim.toolkit.tools.H2Support",
+                   'Class-Path': configurations.runtime.files.collect { "lib/$it.name" }.join(' ')
+    }
+}
+
 
