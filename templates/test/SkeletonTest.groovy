@@ -1,7 +1,7 @@
 ${packageName}
 
 // To support Spock Test Framework - uncomment @Grab lines if compiling directly with groovyc and not gradle build tool
-//@Grab('org.spockframework:spock-core:1.1-groovy-2.4')
+//@Grab('org.spockframework:spock-core:1.2-groovy-2.5')
 import spock.lang.*
 
 // To support the feature to copy stdout and stderr module output as a redirect back to the spock framework
@@ -34,16 +34,16 @@ repositories {
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.4.11'
+    compile 'org.codehaus.groovy:groovy-all:2.5.6'
     compile 'org.apache.ivy:ivy:2.3.0'
 
-    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
+    testCompile 'org.spockframework:spock-core:1.2-groovy-2.5'
     testCompile 'org.springframework.boot:spring-boot:1.2.1.RELEASE'
 }
 
 Or you can include these lines at the top of this source code when directly compiling this script using groovyc
 
-@Grab('org.spockframework:spock-core:1.1-groovy-2.4')
+@Grab('org.spockframework:spock-core:1.2-groovy-2.5')
 import spock.lang.*
 
 @Grab('org.springframework.boot:spring-boot:1.2.1.RELEASE')

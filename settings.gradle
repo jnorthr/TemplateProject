@@ -1,0 +1,2 @@
+//include ':Tools',':Chooser', ':CRUD', ':FileWalker', ':WOW', ':EatHtml' - sub-projects need to be listed here
+rootProject.name ='TemplateProject'

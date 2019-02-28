@@ -8,12 +8,12 @@ buildscript {
     }
  
     dependencies {
-        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
+        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.6.0'
     }
 }
 
 project.ext {
-	gradleVersion = '4.0'
+	gradleVersion = '5.2.1'
 } 
 
 // placeholder replacement Map
@@ -25,7 +25,7 @@ defaultTasks 'filterCopy', 'asciidoctor'
 // copy all asciidoctor-styled text files from 'templates' & rename as asciidoctor .adoc text files
 task('filterCopy', type: Copy) {
     from 'templates/docs'
-    into file('../src/docs/asciidoc')
+    into file('./src/docs/asciidoc')
     include '*.adoc'
     
     // Only the value for this property differs for each created task.
@@ -39,9 +39,9 @@ task('filterCopy', type: Copy) {
 // closure to influence asciidoctor behaviour
 asciidoctor {
     // We can change the AsciidoctorJ dependency version.
-    version = '1.5.3'
+    version = '1.6.0'
     separateOutputDirs=false
-    outputDir = new File("../src/docs/asciidoc")
+    outputDir = new File("./src/docs/asciidoc")
     sourceDir=file('../src/docs/asciidoc')
     backends('html5')
 }

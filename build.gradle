@@ -22,10 +22,10 @@ repositories {
 
 dependencies {
     // Use the latest Groovy version for building this library
-    compile 'org.codehaus.groovy:groovy-all:2.4.14'
+    compile 'org.codehaus.groovy:groovy-all:2.5.6'
 
     // Use the awesome Spock testing and specification framework
-    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
+    testCompile 'org.spockframework:spock-core:1.2-groovy-2.5'
     testCompile 'junit:junit:4.12'
     testCompile 'org.springframework.boot:spring-boot:1.2.1.RELEASE'
     testCompile "org.scala-lang:scala-library:2.11.1"
@@ -104,11 +104,13 @@ task single(type: GradleBuild) {
 
 
 // makes gradle wrapper one folder up - 
-task wrapper(type: Wrapper) {
-	gradleVersion = '4.7'
+/*
+wrapper {
+	gradleVersion = '5.2.1'
     jarFile = "${projectDir.getParent()}/gradle/wrapper/gradle-wrapper.jar"
     scriptFile = "${projectDir.getParent()}/gradlew"
 } // end of task
+*/
 
 jar {
     manifest {

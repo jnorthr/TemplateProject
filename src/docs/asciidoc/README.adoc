@@ -1,0 +1,30 @@
+= https://github.com/jnorthr/Projects/blob/master/README.md[Projects Project README.md]
+Jim Northrop <men@work.com>
+:toc: right
+:icons: font
+:description: Projects Project Builder Templates.
+:keywords: git, github, gradle, groovy, project, builder, templates
+:numbered:
+:github_url: https://github.com/jnorthr/Projects
+:github_project_path: {github_url}/tree/master
+:github_fork_badge: https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png
+
+[.badge]
+image:{github_fork_badge}[link="{github_url}"] Travis Build Status for [red]*Projects* Master Branch: image:https://travis-ci.org/jnorthr/Projects.svg?branch=master[Build Status,link=https://travis-ci.org/jnorthr/Projects]
+
+
+''''
+
+TIP: [red]*Projects* *README*
+
+''''
+
+== Home Page of Projects Project
+
+=== Tools Class Documentation
+
+''''
+
+IMPORTANT: This Project is written by _Jim Northrop_ with *Gradle version 4.0*
+
+''''

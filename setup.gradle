@@ -27,7 +27,7 @@ task (resolveProperties,dependsOn: [readConf]).doFirst{
 	m['gitHubUser']=project.hasProperty('gitHubUser') ? project.property('gitHubUser') : 'Whats my github name?';	
 	m['author']=project.findProperty('author') ?: 'Who did this?';
 	m['email']=project.findProperty('email') ?: 'men@work.com';
-	m['year']=project.findProperty('year') ?: '2018';
+	m['year']=project.findProperty('year') ?: '2019';
 	m['projectRoot']=project.findProperty('projectRoot') ?: '/Users/jim/Dropbox/Projects';
 	m['projectName']=project.findProperty('projectName') ?: 'Tools';
 	m['projectLocation']=project.findProperty('projectLocation') ?: '/Users/jim/Dropbox/Projects/Tools';

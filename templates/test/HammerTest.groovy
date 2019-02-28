@@ -1,7 +1,7 @@
 ${packageName}
 
 // To support Spock Test Framework - uncomment @Grab lines if compiling directly with groovyc and not gradle build tool
-//@Grab('org.spockframework:spock-core:1.1-groovy-2.4')
+//@Grab('org.spockframework:spock-core:1.2-groovy-2.5')
 import spock.lang.*
 
 // To support the feature to copy stdout and stderr module output as a redirect back to the spock framework
