@@ -54,7 +54,7 @@ import groovy.transform.*;
    /** 
     * Variable name of the actual folder for this project. Usually this is the projectDir folder name.
     */  
-    String projectRoot = System.getProperty("user.dir");;
+    String projectRoot = System.getProperty("user.dir");
 
 
    /** 
@@ -66,7 +66,7 @@ import groovy.transform.*;
    /** 
     * Variable name of the actual folder for this project. Usually this is the projectDir folder name.
     */  
-    String projectLocation = System.getProperty("user.dir");;
+    String projectLocation = System.getProperty("user.dir");
 
 
    /** 
@@ -445,29 +445,42 @@ classes=${classes}
     */     
     public static void main(String[] args)
     {
-        println "--- starting ProjectProperties ---"
-	    ProjectProperties obj;
-	         
-		if (args.size() > 0)
-		{
-            println "... using directory :"+args[1];
-			obj = new ProjectProperties(args[1].toString());
-		} // end of if
-		else
-		{
-	        obj = new ProjectProperties();
-    	} // end of else
-
-        println "\nProjectProperties = [" + obj.toString() + "]"
+        println "-------- starting ProjectProperties ---------"
+	    ProjectProperties obj  = new ProjectProperties();
+        println "Default ProjectProperties = [" + obj.toString() + "]"
+	    println "---------------------------------------------"     
 
         Map m = obj.toMap()
         m.each{k,v-> println "... map[${k}]=[${v}]"}
+        println "---------------------------------------------"     
 
         def x = obj.getClassNames();
 		x.each{y-> println "... create source file name="+y; }
+        println "---------------------------------------------"     
 		
         // write updated version of gradle.properties with this TemplateProject folder
         obj.dump();
+        println "---------------------------------------------"     
+
+        if (args.size() > 0)
+        {
+            println "---------------------------------------------"     
+            println "... create new object using directory :"+args[1];
+            obj = new ProjectProperties(args[1].toString());
+            println "---------------------------------------------"     
+            println "ProjectProperties = [" + obj.toString() + "]"
+            m = obj.toMap()
+            m.each{k,v-> println "... map[${k}]=[${v}]"}
+            println "---------------------------------------------"     
+
+            x = obj.getClassNames();
+            x.each{y-> println "... create source file name="+y; }
+            println "---------------------------------------------"     
+        
+            // write updated version of gradle.properties with this TemplateProject folder
+            obj.dump();
+            println "---------------------------------------------"     
+        } // end of if
 
         println "--- the end of ProjectProperties ---"
     } // end of main

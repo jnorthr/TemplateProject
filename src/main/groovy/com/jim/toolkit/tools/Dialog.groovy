@@ -105,7 +105,7 @@ import com.jim.toolkit.tools.ProjectProperties;
 // edt method makes sure UI is build on Event Dispatch Thread.
 swingBuilder.edt 
 {   // Simple change in look and feel.
-    lookAndFeel 'nimbus'  
+    //lookAndFeel 'nimbus'  
     frame(title: 'Project Properties', size: [500, 550], minimumSize: [450, 500], show: true, locationRelativeTo: null, defaultCloseOperation: EXIT_ON_CLOSE) 
     { 
         borderLayout(vgap: 10)

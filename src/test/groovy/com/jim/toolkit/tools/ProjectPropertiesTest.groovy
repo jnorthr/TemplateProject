@@ -6,7 +6,7 @@ import spock.lang.*
 
 // To support the feature to copy stdout and stderr module output as a redirect back to the spock framework
 //@Grab('org.springframework.boot:spring-boot:1.2.1.RELEASE')
-import org.springframework.boot.test.OutputCapture
+import org.springframework.boot.test.system.OutputCaptureRule
 
 /*
  * Copyright 2017 the original author Jim Northrop or authors.
@@ -66,7 +66,7 @@ class ProjectPropertiesTest extends spock.lang.Specification {
     ProjectProperties test;
 
 	@org.junit.Rule
-	OutputCapture capture = new OutputCapture()
+	OutputCaptureRule capture = new OutputCaptureRule()
 
 	// run before the first feature method
 	def setupSpec() 
